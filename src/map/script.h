@@ -439,6 +439,19 @@ struct script_syntax_data {
 	int index;			// Number of the syntax used in the script
 };
 
+struct casecheck_data {
+	struct str_data_struct *str_data;
+	int str_data_size; // size of the data
+	int str_num; // next id to be assigned
+	// str_buf holds the strings themselves
+	char *str_buf;
+	int str_size; // size of the buffer
+	int str_pos; // next position to be assigned
+	int str_hash[SCRIPT_HASH_SIZE];
+	bool (*add_str) (const char* p);
+	void (*clear) (void);
+};
+
 /**
  * Interface
  **/
@@ -638,16 +651,9 @@ struct script_interface {
 	int (*run_func) (struct script_state *st);
 	const char *(*getfuncname) (struct script_state *st);
 	// for ENABLE_CASE_CHECK
-	struct str_data_struct *local_casecheck_str_data;
-	int local_casecheck_str_data_size; // size of the data
-	int local_casecheck_str_num; // next id to be assigned
-	// str_buf holds the strings themselves
-	char *local_casecheck_str_buf;
-	int local_casecheck_str_size; // size of the buffer
-	int local_casecheck_str_pos; // next position to be assigned
-	int local_casecheck_str_hash[SCRIPT_HASH_SIZE];
-	bool (*local_casecheck_add_str) (const char* p, int h);
-	void (*local_casecheck_clear) (void);
+	unsigned int (*calc_hash_ci) (const char *p);
+	struct casecheck_data local_casecheck;
+	struct casecheck_data global_casecheck;
 	// end ENABLE_CASE_CHECK
 };
 

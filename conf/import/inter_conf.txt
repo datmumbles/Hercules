@@ -140,12 +140,10 @@ npc_market_data_db: npc_market_data
 // exclusively by your Control Panel or Website.
 
 // Use SQL for item_db? (not recommended)
-use_sql_item_db: no
+use_sql_item_db: yes
 
 // Use SQL for mob_db? (not recommended)
-use_sql_mob_db: no
+use_sql_mob_db: yes
 
 // Use SQL for mob_skill_db? (not recommended)
-use_sql_mob_skill_db: no
-
-import: conf/import/inter_conf.txt
+use_sql_mob_skill_db: yes

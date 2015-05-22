@@ -1,0 +1,68 @@
+/*=========================================================
+@flooritem command
+by Mumbles
+===========================================================
+Compatibility:
+Optimised for Hercules emulators.
+===========================================================
+Description:
+Floors the specified item and amounts.
+=========================================================*/
+
+-	script	at_flooritem	-1,{
+	
+	/*-----------------------------------------------------
+	Configuration
+	-----------------------------------------------------*/
+	OnInit:
+		bindatcmd "flooritem", strnpcinfo(3) +"::OnFlooritem", 99, 99;
+		end;
+	
+	
+	/*-----------------------------------------------------
+	Function: flooritem()
+	-------------------------------------------------------
+	Description: Floors the specified item and amounts.
+	-------------------------------------------------------
+	Usage:
+	flooritem(<item ID>, <amount>);
+	-----------------------------------------------------*/
+	function flooritem {
+		getmapxy(.@map$, .@x, .@y, 0);
+		
+		for (.@i = 0; .@i < getarg(1); .@i++) {
+			makeitem getarg(0), 1, .@map$, .@x + rand(-5, 5), .@y + rand(-5, 5);
+		}
+		
+		return;
+	}
+
+	
+	/*-----------------------------------------------------
+	Script
+	-----------------------------------------------------*/
+	OnFlooritem:
+		switch (.@atcmd_numparameters) {
+			case 1:
+				message strcharinfo(0), "Please input an amount (usage: @flooritem <item ID> <quantity>).";
+				break;
+		
+			case 2:
+				if (getitemname(atoi(.@atcmd_parameters$[0])) == "null") {
+					message strcharinfo(0), "Invalid item ID.";
+					break;
+				}
+				
+				message strcharinfo(0), atoi(.@atcmd_parameters$[1]) +" "+ getitemname(atoi(.@atcmd_parameters$[0])) +" was created.";
+				flooritem atoi(.@atcmd_parameters$[0]), atoi(.@atcmd_parameters$[1]);
+				end;
+				
+			default:
+				message strcharinfo(0), "Invalid input (usage: @flooritem <item ID> <quantity>).";
+				break;
+		}
+		
+		message strcharinfo(0), "@flooritem failed.";
+		end;
+
+}

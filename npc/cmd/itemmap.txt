@@ -1,0 +1,121 @@
+/*=========================================================
+@itemmap command
+by Mumbles
+===========================================================
+Description:
+Allows for preset or user-defined map rewards via @itemmap.
+Announce and logging options are also available.
+
+Compliments Missingno's @reward logs: http://goo.gl/OjiHOS
+===========================================================
+SQL table:
+CREATE TABLE IF NOT EXISTS `rewardlog` (
+	`id` int(11) unsigned NOT NULL auto_increment,
+	`account_id` int(11) NOT NULL,
+	`staff_name` varchar(255) NOT NULL,
+	`item_amount` int(11) NOT NULL,
+	`item_id` int(11) NOT NULL,
+	`item_name` varchar(255) NOT NULL,
+	`char_id` int(11) NOT NULL,
+	`player_name` varchar(255) NOT NULL,
+	`when` datetime NOT NULL,
+	PRIMARY KEY	(`id`)
+) ENGINE=MyISAM;
+===========================================================
+Compatibility:
+Optimised for Hercules emulators.
+===========================================================
+Changelog:
+v1.0 - First version.
+=========================================================*/
+-	script	itemmap	-1,{
+
+	/*-----------------------------------------------------
+	Configuration
+	-----------------------------------------------------*/
+	OnInit:
+		.announce = 0;	// Announce reward? 1 = yes, 0 = no
+		.log = 1;		// Log reward? 1 = yes, 0 = no
+		
+		bindatcmd "itemmap", strnpcinfo(3) +"::OnCommand", 80, 80;
+		end;
+		
+		
+	/*-----------------------------------------------------
+	Script
+	-----------------------------------------------------*/
+	OnCommand:
+		// Determine correct syntax
+		switch (.@atcmd_numparameters) {
+			case 2:
+				// Set item ID and amount
+				.@item_id = atoi(.@atcmd_parameters$[0]);
+				.@amount = atoi(.@atcmd_parameters$[1]);
+				
+				// Set invoking ID, map name, and char name
+				.@start_id = getcharid(3);
+				.@map_name$ = strcharinfo(3);
+				.@char_name$ = strcharinfo(0);
+					
+				if (getitemname(.@item_id) != "null") {
+					// Fill array with online players' account IDs (RIDs)
+					query_sql "SELECT `account_id` FROM `char` WHERE `online` = '1'", .@account_id;
+					
+					// Loop through all player RIDs
+					for (.@i = 0; .@i < getarraysize(.@account_id); .@i++) {
+						// Check if invoking RID was selected
+						if (.@account_id[.@i] != .@start_id) {
+							// Attach selected RID
+							attachrid .@account_id[.@i];
+							
+							// Check if selected RID is on map
+							if (.@map_name$ == strcharinfo(3)) {
+								// Reward selected RID and increment counter
+								message strcharinfo(0), "Something is falling from the sky.";
+								getitem .@item_id, .@amount;
+								.@j++;
+								
+								// Log reward
+								if (.log) {
+									query_logsql
+									"INSERT INTO `rewardlog` VALUES (NULL, '"+ .@start_id +"', '"+ escape_sql(.@char_name$) +"', '"+ .@amount +"', '"+ .@item_id +"', "+
+									"'"+ escape_sql(getitemname(.@item_id)) +"', '"+ getcharid(0, strcharinfo(0)) +"', '"+ escape_sql(strcharinfo(0)) +"', NOW())";
+								}
+							}
+							
+							// Detach selected RID
+							detachrid;
+						}
+					}
+					
+					// No players were rewarded
+					if (!.@j) {
+						message .@char_name$, "There are no other players on this map.";
+						break;
+					}
+					
+					// Announce reward
+					if (.announce) {
+						announce .@char_name$ +" has rewarded "+ .@j +" player"+ (.@j > 1 ? "s" : "") +" on the map '"+ .@map_name$ +"' with "+ .@amount +" "+ getitemname(.@item_id) +" each.", bc_all;
+					}
+					
+					// Display confirmation message
+					message .@char_name$, .@j +" "+ (.@j > 1 ? "players were" : "player was") +" given "+ .@amount +" "+ getitemname(.@item_id) +".";
+					end;
+				}
+				
+				// Non-existent item
+				message strcharinfo(0), "Invalid item ID.";
+				break;
+				
+			default:
+				// Invalid syntax
+				message strcharinfo(0), "Invalid syntax (usage: "+ .@atcmd_command$ +" <item ID> <quantity>";
+				break;
+		}
+		
+		// Fail message
+		message strcharinfo(0), .@atcmd_command$ +" failed.";
+		end;
+
+}

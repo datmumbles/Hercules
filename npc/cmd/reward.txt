@@ -1,0 +1,167 @@
+/*=========================================================
+@reward command
+by Glitch
+===========================================================
+Description:
+===========================================================
+Utility for staff to reward players with items. Useful for
+event rewards and consolations. Direct player rewards are
+announced; both rewards and consolations are logged.
+
+The command @itemmap is used to award consolations to all
+players on the designated map; if you do not know what
+this command is, go get it - it's free.
+===========================================================
+Run these queries in your logs schema:
+===========================================================
+CREATE TABLE IF NOT EXISTS `rewardlog` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `account` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `item_amount` int(11) NOT NULL,
+  `item_name` varchar(255) NOT NULL,
+  `for` varchar(255) NOT NULL,
+  `reason` varchar(255) NOT NULL,
+  `when` datetime NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM;
+
+CREATE TABLE IF NOT EXISTS `consolationlog` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `account` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `item_amount` int(11) NOT NULL,
+  `item_name` varchar(255) NOT NULL,
+  `reason` varchar(255) NOT NULL,
+  `when` datetime NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM;
+=========================================================*/
+
+-	script	reward	-1,{
+
+	OnReward:
+		// Default values
+		.@player$ = strcharinfo(0);
+		.@item_id = 7711;
+		.@amount = 10;
+		.@reason$ = "Winner of...";
+		
+		do
+		{
+			switch (select("Player reward:Event consolation:^FF0000End session^000000"))
+			{
+				case 1:	// Reward configuration
+					.@return = 0;	// Clear return trigger
+					message strcharinfo(0), "Make sure the target player is online. If (s)he is not, use @gift instead.";
+					
+					do
+					{
+						switch (select("Player [^008800"+ .@player$ +"^000000]:Item [^008800"+ getitemname(.@item_id) +"^000000]:Amount [^008800"+ .@amount +"^000000]:Reason [^008800"+ .@reason$ +"^000000]:Confirm reward:^6B3FA0Go back^000000"))
+						{
+							case 1:
+								input .@player$;	// Set player name
+								break;
+							
+							case 2:
+								input .@item_id;	// Set item ID
+								break;
+							
+							case 3:
+								input .@amount;		// Set amount
+								break;
+								
+							case 4:
+								input .@reason$;	// Set reason
+								break;
+							
+							case 5:
+								// Set staff title
+								switch (getgmlevel())
+								{
+									case 40:
+										.@title$ = "Community Manager";
+										break;
+										
+									case 60:
+										.@title$ = "Event Manager";
+										break;
+										
+									case 80:
+										.@title$ = "Developer";
+										break;
+										
+									case 90:
+										.@title$ = "Supervisor";
+										break;
+										
+									case 97:
+									case 99:
+										.@title$ = "Administrator";
+								}
+								
+								// Broadcast and log reward
+								announce "The "+ .@title$ +" "+ strcharinfo(0) +" has rewarded "+ .@player$ +" with "+ .@amount +" "+ getitemname(.@item_id) +".",bc_all;
+								query_logsql "INSERT INTO `rewardlog` VALUES (NULL, '"+ getcharid(3) +"', '"+ strcharinfo(0) +"', '"+ .@item_id +"', '"+ .@amount +"', '"+ getitemname(.@item_id) +"', '"+ escape_sql(.@player$) +"', '"+ escape_sql(.@reason$) +"', NOW())";
+								
+								// Issue reward
+								getitem .@item_id, .@amount, getcharid(3, .@player$);
+								message strcharinfo(0), .@amount +" "+ getitemname(.@item_id) +" has been given to "+ .@player$ +".";
+								
+								.@return++;	// Set return trigger
+								break;
+							
+							case 6:
+								.@return++;	// Set return trigger
+						}
+					} while (!.@return);
+					break;
+			
+				case 2:	// Consolation configuration
+					.@return = 0;	// Clear return trigger
+					do {
+						switch (select("Item [^008800"+ getitemname(.@item_id) +"^000000]:Amount [^008800"+ .@amount +"^000000]:Reason [^008800"+ .@reason$ +"^000000]:Confirm consolation:^6B3FA0Go back^000000"))
+						{
+							case 1:
+								input .@item_id;	// Set item ID
+								break;
+									
+							case 2:
+								input .@amount;		// Set amount
+								break;
+								
+							case 3:
+								input .@reason$;	// Set reason
+								break;
+								
+							case 4:
+								// Issue consolation
+								atcommand "@itemmap "+ strcharinfo(3) +" "+ .@item_id +" "+ .@amount;
+								message strcharinfo(0), .@amount +" "+ getitemname(.@item_id) +" has been given as consolation.";
+							
+								// Log consolation
+								query_logsql("INSERT INTO `consolationlog` VALUES (NULL,'"+ getcharid(3) +"', '"+ strcharinfo(0) +"', '"+ .@item_id +"', '"+ .@amount +"', '"+ getitemname(.@item_id) +"', '"+ escape_sql(.@reason$) +"', NOW())");
+								.@return++;	// Set return trigger
+								break;
+								
+							case 5:
+								.@return++;	// Set return trigger
+						}
+					} while (!.@return);
+					break;
+				
+				case 3:
+					.@endSession++;
+			}
+		} while (!.@endSession);
+		
+		close;
+	
+	OnInit:
+	OnWhisperGlobal:
+		bindatcmd "reward",strnpcinfo(3) +"::OnReward",40,60;	// @reward
+		end;
+	
+}

@@ -1,0 +1,114 @@
+/*=========================================================
+One-click Healer
+by Mumbles
+===========================================================
+Description:
+Buffs and heals without dialogues. Charges zeny at a rate
+that scales with the player's level after a prerequisite
+level is met.
+===========================================================
+Compatibility:
+Optimised for Hercules emulators.
+===========================================================
+Changelog:
+v1.0 - First version.
+=========================================================*/
+
+-	script	healer	-1,{
+
+	/*-----------------------------------------------------
+	Script
+	-----------------------------------------------------*/
+	// Prevent usage if delay hasn't passed
+	if (@heal_delay > gettimetick(2)) {
+		// Display delay time
+		dispbottom "Please wait "+ (@heal_delay - gettimetick(2)) +" second(s) before healing again.";
+		end;
+	}
+	
+	// Check base level
+	if (BaseLevel >= .level) {
+		// Calculate cost
+		.@cost = BaseLevel * .rate;
+		
+		// Check if heal charges have been authorised
+		if (!@auth_heal) {
+			message strcharinfo(0), "You will be charged "+ .@cost +"z per use. Click again if this is okay.";
+			@auth_heal = 1;
+			end;
+		}
+		
+		// Check if player has enough zeny
+		if (Zeny < .@cost) {
+			message strcharinfo(0), "You need "+ .@cost +"z to use this service.";
+			end;
+		}
+		
+		// Deduct zeny
+		Zeny -= .@cost;
+	}
+
+	// Heal and buff
+	percentheal 100, 100;
+	sc_start SC_INCREASEAGI, 300000, 10;
+	sc_start SC_BLESSING, 300000, 10;
+	
+	// Effects
+	specialeffect2 EF_HEAL2;		// Heal
+	specialeffect2 EF_INCAGILITY;	// Increase AGI
+	specialeffect2 EF_BLESSING;		// Blessing
+	
+	// End bad status conditions
+	sc_end SC_BLEEDING;
+	sc_end SC_POISON;
+	sc_end SC_SILENCE;
+	sc_end SC_BLIND;
+	sc_end SC_CONFUSION;
+	sc_end SC_CURSE;
+	sc_end SC_HALLUCINATION;
+	
+	// Set player's heal delay
+	@heal_delay = gettimetick(2) + .delay;
+	end;
+	
+	
+	/*-----------------------------------------------------
+	Configuration
+	-----------------------------------------------------*/
+	OnInit:
+		.delay = 5;		// Delay in seconds
+		.level = 30;	// Level to start charging Zeny per use
+		.rate = 100;	// Price per level (BaseLevel * .rate)
+		end;
+
+}
+
+/*-----------------------------------------------------
+Duplicates
+-----------------------------------------------------*/
+alberta,185,144,5	duplicate(healer)	Healer#alb	4_M_CHILD
+aldebaran,144,119,4	duplicate(healer)	Healer#ald	4_M_CHILD
+amatsu,104,157,5 	duplicate(healer)	Healer#ama	4_M_CHILD
+ayothaya,153,173,4	duplicate(healer)	Healer#ayo	4_M_CHILD
+bat_room,150,144,5	duplicate(healer)	Healer#bat	4_M_CHILD
+comodo,184,158,5	duplicate(healer)	Healer#com	4_M_CHILD
+einbech,168,125,4	duplicate(healer)	Healer#einbe	4_M_CHILD
+einbroch,59,206,4	duplicate(healer)	Healer#einbr	4_M_CHILD
+geffen,124,69,4	duplicate(healer)	Healer#gef	4_M_CHILD
+gonryun,156,122,5	duplicate(healer)	Healer#gon	4_M_CHILD
+hugel,101,141,4	duplicate(healer)	Healer#hug	4_M_CHILD
+izlude,130,116,5	duplicate(healer)	Healer#izl	4_M_CHILD
+jawaii,212,219,5	duplicate(healer)	Healer#jaw	4_M_CHILD
+lighthalzen,150,100,5	duplicate(healer)	Healer#lhz	4_M_CHILD
+louyang,226,103,4	duplicate(healer)	Healer#h1-16	4_M_CHILD
+lunette,68,91,5	duplicate(healer)	Healer#lun	4_M_CHILD
+morocc,165,101,4	duplicate(healer)	Healer#moc	4_M_CHILD
+moscovia,226,191,4	duplicate(healer)	Healer#mos	4_M_CHILD
+niflheim,188,180,5	duplicate(healer)	Healer#nif	4_M_CHILD
+payon,179,105,4	duplicate(healer)	Healer#pay	4_M_CHILD
+prontera,151,193,5	duplicate(healer)	Healer#prt	4_M_CHILD
+rachel,125,116,5	duplicate(healer)	Healer#rac	4_M_CHILD
+umbala,94,162,5	duplicate(healer)	Healer#umb	4_M_CHILD
+veins,212,133,5	duplicate(healer)	Healer#vei	4_M_CHILD
+xmas,143,124,5	duplicate(healer)	Healer#lut	4_M_CHILD
+yuno,167,187,4	duplicate(healer)	Healer#yun	4_M_CHILD

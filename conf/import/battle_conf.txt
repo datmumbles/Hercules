@@ -1,0 +1,17 @@
+import: conf/import/battle/battle.txt
+import: conf/import/battle/battleground.txt
+import: conf/import/battle/client.txt
+import: conf/import/battle/drops.txt
+import: conf/import/battle/exp.txt
+import: conf/import/battle/feature.txt
+import: conf/import/battle/gm.txt
+import: conf/import/battle/guild.txt
+import: conf/import/battle/homunc.txt
+import: conf/import/battle/items.txt
+import: conf/import/battle/misc.txt
+import: conf/import/battle/monster.txt
+import: conf/import/battle/party.txt
+import: conf/import/battle/pet.txt
+import: conf/import/battle/player.txt
+import: conf/import/battle/skill.txt
+import: conf/import/battle/status.txt

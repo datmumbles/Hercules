@@ -1,114 +1,163 @@
-/*=========================================================
-One-click Healer
-by Mumbles
-===========================================================
-Description:
-Buffs and heals without dialogues. Charges zeny at a rate
-that scales with the player's level after a prerequisite
-level is met.
-===========================================================
-Compatibility:
-Optimised for Hercules emulators.
-===========================================================
-Changelog:
-v1.0 - First version.
-=========================================================*/
+//===== EinherjarRO Scripts ================================== 
+//= Healer w/ Buffer
+//===== By: ================================================== 
+//= Stolao
+//===== Current Version: ===================================== 
+//= 1.05
+//===== Compatible With: ===================================== 
+//= rAthena SVN
+//===== Description: ========================================= 
+//= A Simple Non-Abuse Healer w/ Buffer
+//===== Comments: ============================================
+//= N/A
+//===== Additional Comments: =================================
+//= 1.00 Initial Make
+//= 1.01 Changed while(1) -> for
+//= 1.02 Changed for -> while(hp/sp)
+//= 1.03 Fixed Logic Bug
+//= 1.04 Added Config
+//= 1.05 Added Buffer per requests
+//===== Contact Ifo: =========================================
+//= [Stolao] 
+//= Email: Taingram11@gmail.com
+//============================================================
+prontera,153,193,6	script	Healer	475,{
 
--	script	healer	-1,{
-
-	/*-----------------------------------------------------
-	Script
-	-----------------------------------------------------*/
-	// Prevent usage if delay hasn't passed
-	if (@heal_delay > gettimetick(2)) {
-		// Display delay time
-		dispbottom "Please wait "+ (@heal_delay - gettimetick(2)) +" second(s) before healing again.";
-		end;
+if(BaseLevel > 59 ) goto Over40;
+	set #drink,0;
+	mes "Hello,";
+	mes "do you want me to heal you?";
+	mes "You don't have to pay me";
+	mes "until you reached Baselevel 60!";
+	if(select("Yes:No")!=1) close;
+	close2;
+	while( Hp && ( Hp != MaxHp ) || Sp && ( Sp != MaxSp) ){
+		progressbar "0x11CC99",.HealDelay;
+		percentheal rand(.healrate),rand(.healrate);
+		set #drink, 1;
 	}
-	
-	// Check base level
-	if (BaseLevel >= .level) {
-		// Calculate cost
-		.@cost = BaseLevel * .rate;
-		
-		// Check if heal charges have been authorised
-		if (!@auth_heal) {
-			message strcharinfo(0), "You will be charged "+ .@cost +"z per use. Click again if this is okay.";
-			@auth_heal = 1;
-			end;
+	if( Sp < 1 )
+		{
+			while( Sp != MaxSp)
+				{
+					progressbar "0x11CC99",.HealDelay;
+					percentheal rand(.healrate),rand(.healrate);
+					set #drink, 1;
+				}
 		}
-		
-		// Check if player has enough zeny
-		if (Zeny < .@cost) {
-			message strcharinfo(0), "You need "+ .@cost +"z to use this service.";
-			end;
+	if(#drink == 0) {
+		mes "I think you don't need my help, huh?";
+		close;
 		}
-		
-		// Deduct zeny
-		Zeny -= .@cost;
+	if(#drink == 1) { 	
+		specialeffect2 7; 
+		}
+	if(.Mode & 2){
+		for(set .@x,0; .@x < getarraysize(.BuffInfo); set .@x,.@x + 3){
+			sc_start .BuffInfo[.@x], .BuffInfo[.@x + 1] * 60000, .BuffInfo[.@x + 2];
+		}
 	}
 
-	// Heal and buff
-	percentheal 100, 100;
-	sc_start SC_INCREASEAGI, 300000, 10;
-	sc_start SC_BLESSING, 300000, 10;
-	
-	// Effects
-	specialeffect2 EF_HEAL2;		// Heal
-	specialeffect2 EF_INCAGILITY;	// Increase AGI
-	specialeffect2 EF_BLESSING;		// Blessing
-	
-	// End bad status conditions
-	sc_end SC_BLEEDING;
-	sc_end SC_POISON;
-	sc_end SC_SILENCE;
-	sc_end SC_BLIND;
-	sc_end SC_CONFUSION;
-	sc_end SC_CURSE;
-	sc_end SC_HALLUCINATION;
-	
-	// Set player's heal delay
-	@heal_delay = gettimetick(2) + .delay;
-	end;
-	
-	
-	/*-----------------------------------------------------
-	Configuration
-	-----------------------------------------------------*/
-	OnInit:
-		.delay = 5;		// Delay in seconds
-		.level = 30;	// Level to start charging Zeny per use
-		.rate = 100;	// Price per level (BaseLevel * .rate)
-		end;
+end;
 
+
+Over40:
+	set #drink,0;
+	mes "Hello,";
+	mes "do you want me to heal you?";
+	mes "I demand 3.500 zeny for this.";
+	if(select("Yes:No")!=1) close;
+	close2;
+	if (Zeny < 3500 ) { mes "Sorry, you don't have enough zeny."; close; }
+	if ( Hp && ( Hp == MaxHp ) && Sp && ( Sp == MaxSp) ){ mes "I think you don't need my help. huh?"; close; }
+	set Zeny, Zeny-3500;
+	while( Hp && ( Hp != MaxHp ) || Sp && ( Sp != MaxSp) ){
+		progressbar "0x11CC99",.HealDelay;
+		percentheal rand(.healrate),rand(.healrate);
+		set #drink, 1;
+	}
+	if( Sp < 1 )
+		{
+			while( Sp != MaxSp)
+				{
+					progressbar "0x11CC99",.HealDelay;
+					percentheal rand(.healrate),rand(.healrate);
+					set #drink, 1;
+				}
+		}
+	if(#drink == 0) {
+		mes "I think you don't need my help, huh?";
+		close;
+		}
+	if(#drink == 1) { 	 
+		specialeffect2 7; 
+		}
+	if(.Mode & 2){
+		for(set .@x,0; .@x < getarraysize(.BuffInfo); set .@x,.@x + 3){
+			sc_start .BuffInfo[.@x], .BuffInfo[.@x + 1] * 60000, .BuffInfo[.@x + 2];
+		}
+	}
+
+end;
+OnInit:
+	// Bitwise
+	// [1]: Healer [2]: Buffer
+	// 1+2 = Healer and Buffer on
+	set .Mode,1;
+
+	// Player is healed a random amount up to this in both hp and sp
+	set .healrate,35;
+
+	//Number of Seconds between Heals
+	set .HealDelay,1;
+
+	// Each buff contains 3 variables (42 Total Max Buffs)
+	// <Type>,<Duration>,<Rate>, // Buff 1
+	// <Type>,<Duration>,<Rate>, // Buff 2
+	//   ...;
+	//
+	//  Example: 188,45,3
+	//    -Player gains +3 Str for 45 mins
+	//
+	//  Type is 188, which references which SC_ to use, SC_INCSTR in this example
+	//     -For a full list of SC_ visit the db/const.txt
+	setarray .BuffInfo	,30,45,10	// Level 10 Blessing for 45 mins
+				,32,45,10;	// Level 10 Increase Agi for 45 mins
+end;
 }
 
-/*-----------------------------------------------------
-Duplicates
------------------------------------------------------*/
-alberta,185,144,5	duplicate(healer)	Healer#alb	4_M_CHILD
-aldebaran,144,119,4	duplicate(healer)	Healer#ald	4_M_CHILD
-amatsu,104,157,5 	duplicate(healer)	Healer#ama	4_M_CHILD
-ayothaya,153,173,4	duplicate(healer)	Healer#ayo	4_M_CHILD
-bat_room,150,144,5	duplicate(healer)	Healer#bat	4_M_CHILD
-comodo,184,158,5	duplicate(healer)	Healer#com	4_M_CHILD
-einbech,168,125,4	duplicate(healer)	Healer#einbe	4_M_CHILD
-einbroch,59,206,4	duplicate(healer)	Healer#einbr	4_M_CHILD
-geffen,124,69,4	duplicate(healer)	Healer#gef	4_M_CHILD
-gonryun,156,122,5	duplicate(healer)	Healer#gon	4_M_CHILD
-hugel,101,141,4	duplicate(healer)	Healer#hug	4_M_CHILD
-izlude,130,116,5	duplicate(healer)	Healer#izl	4_M_CHILD
-jawaii,212,219,5	duplicate(healer)	Healer#jaw	4_M_CHILD
-lighthalzen,150,100,5	duplicate(healer)	Healer#lhz	4_M_CHILD
-louyang,226,103,4	duplicate(healer)	Healer#h1-16	4_M_CHILD
-lunette,68,91,5	duplicate(healer)	Healer#lun	4_M_CHILD
-morocc,165,101,4	duplicate(healer)	Healer#moc	4_M_CHILD
-moscovia,226,191,4	duplicate(healer)	Healer#mos	4_M_CHILD
-niflheim,188,180,5	duplicate(healer)	Healer#nif	4_M_CHILD
-payon,179,105,4	duplicate(healer)	Healer#pay	4_M_CHILD
-prontera,151,193,5	duplicate(healer)	Healer#prt	4_M_CHILD
-rachel,125,116,5	duplicate(healer)	Healer#rac	4_M_CHILD
-umbala,94,162,5	duplicate(healer)	Healer#umb	4_M_CHILD
-veins,212,133,5	duplicate(healer)	Healer#vei	4_M_CHILD
-xmas,143,124,5	duplicate(healer)	Healer#lut	4_M_CHILD
-yuno,167,187,4	duplicate(healer)	Healer#yun	4_M_CHILD
+prontera,282,197,1	duplicate(Healer)	Healer#prt1	475
+prontera,161,326,3	duplicate(Healer)	Healer#prt2	475
+prontera,29,210,6	duplicate(Healer)	Healer#prt3	475
+prontera,148,29,8	duplicate(Healer)	Healer#prt4	475
+morocc,153,97,6	duplicate(Healer)	Healer#moc1	475
+geffen,130,68,3	duplicate(Healer)	Healer#gef1	475
+geffen,196,123,6	duplicate(Healer)	Healer#gef2	475
+payon,179,226,3	duplicate(Healer)	Healer#pay1	475
+payon,179,104,6	duplicate(Healer)	Healer#pay2	475
+alberta,114,65,6	duplicate(Healer)	Healer#alb1	475
+alberta,26,238,6	duplicate(Healer)	Healer#alb2	475
+izlude,134,130,3	duplicate(Healer)	Healer#izl1	475
+aldebaran,146,119,3	duplicate(Healer)	Healer#ald1	475
+xmas,149,136,6	duplicate(Healer)	Healer#xmas	475
+comodo,197,148,3	duplicate(Healer)	Healer#com1	475
+yuno,166,187,6	duplicate(Healer)	Healer#yun1	475
+yuno,321,107,6	duplicate(Healer)	Healer#yun2	475
+yuno,280,221,3	duplicate(Healer)	Healer#yun3	475
+amatsu,102,152,6	duplicate(Healer)	Healer#ama1	475
+gonryun,156,122,3	duplicate(Healer)	Healer#gon1	475
+umbala,86,160,3	duplicate(Healer)	Healer#umb1	475
+louyang,210,107,6	duplicate(Healer)	Healer#lou1	475
+ayothaya,212,178,6	duplicate(Healer)	Healer#ayo1	475
+einbroch,56,203,6	duplicate(Healer)	Healer#ein1	475
+lighthalzen,167,102,3	duplicate(Healer)	Healer#lig1	475
+einbech,184,136,3	duplicate(Healer)	Healer#ein2	475
+hugel,91,145,6	duplicate(Healer)	Healer#hug1	475
+rachel,117,144,6	duplicate(Healer)	Healer#rac1	475
+veins,215,128,3	duplicate(Healer)	Healer#vei1	475
+moscovia,226,191,3	duplicate(Healer)	Healer#mos1	475
+mid_camp,198,293,3	duplicate(Healer)	Healer#mid1	475
+dicastes01,194,194,5	duplicate(Healer)	Healer#dic1	475
+brasilis,191,94,5	duplicate(Healer)	Healer#bra1	475
+splendide,182,120,5	duplicate(Healer)	Healer#spl1	475
+manuk,270,143,5	duplicate(Healer)	Healer#man1	475

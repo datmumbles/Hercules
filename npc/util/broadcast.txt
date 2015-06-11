@@ -1,0 +1,17 @@
+-	script	RMSBC	-1,{
+
+
+OnMinute45: 
+announce "Greetings, Adventurers! Want to support the server?",bc_blue|bc_all;
+announce "You can do so by voting for us on several voting sites or writing a review at ratemyserver.net - Thank you!",bc_blue|bc_all; 
+end;
+
+OnMinute27:
+announce "The Team will NEVER ask you for your account information!",bc_blue|bc_all;
+end;
+
+OnMinute37:
+announce "Invite your friends and share us on FB to get more players!",bc_blue|bc_all;
+end;
+
+}

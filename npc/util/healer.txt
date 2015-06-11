@@ -21,7 +21,7 @@
 //= [Stolao] 
 //= Email: Taingram11@gmail.com
 //============================================================
-prontera,153,193,6	script	Healer	475,{
+prontera,150,192,3	script	Healer	475,{
 
 if(BaseLevel > 59 ) goto Over40;
 	set #drink,0;

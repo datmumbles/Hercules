@@ -1,0 +1,66 @@
+prontera,164,168,12	script	GM Online List	858,{
+	mes "ElariaRO GM list : "+( .admincount + .gmcount );
+	mes " ";
+	for ( .@i = 0; .@i < .admincount; .@i++ ) {
+		mes "Admin : " "^0011FF"  + .admin$[.@i] + "^000000";
+		mes "Status : "+( ( isloggedin( getcharid( 3, .admin$[.@i] ) ) )? ( ( checkidle( .admin$[.@i] ) > .idletime )? "^FF7700Idle^000000" : "^00FF00 Online^000000" ) : "^FF0000Offline^000000" );
+		mes "Language: " + .languageadmin$[.@i];		
+		query_sql "select date_format( lastlogin , '%l.%i%p %e/%c/%Y' ) from login right join `char` on `char`.account_id = login.account_id where `char`.name = '"+ escape_sql( .admin$[.@i] ) +"'", .@time$;
+		mes "Last Login: "+ .@time$;
+		mes " ";
+	}
+	for ( .@i = 0; .@i < .gmcount; .@i++ ) {
+		mes "GM : " "^0011FF"  + .gm$[.@i] + "^000000";
+		mes "Status : "+( ( isloggedin( getcharid( 3, .gm$[.@i] ) ) )? ( ( checkidle( .gm$[.@i] ) > .idletime )? "^FF7700Idle^000000" : "^00FF00 Online^000000" ) : "^FF0000Offline^000000" );
+		mes "Language: " + .languagegm$[.@i];
+		query_sql "select date_format( lastlogin , '%l.%i%p %e/%c/%Y' ) from login right join `char` on `char`.account_id = login.account_id where `char`.name = '"+ escape_sql( .gm$[.@i] ) +"'", .@time$;
+		mes "Last Login: "+ .@time$;
+		mes " ";
+	}
+	mes "Server Time:";
+	mes gettimestr("%I:%M%p ",10) + gettime(5) + gettimestr(" %B ",15) + gettime(7);
+	close;
+
+OnInit:
+	.idletime = 60; // idle for 60 seconds = idle status
+	setarray .admin$, "[GM] Aurela","[GM] Ciel","[GM] Mumbles","[GM] Geo";
+	setarray .languageadmin$, "EN, DE", "EN, DE, ES","EN, DE, IT";
+	setarray .gm$, "[GM] Chemii","[GM] Flower","[GM] Meux","[GM] Reika","[GM] Froggy","[GM] Chemii";
+	setarray .languagegm$, "EN";
+
+
+	.admincount = getarraysize( .admin$ );
+	.gmcount = getarraysize( .gm$ );
+	end;
+}
+
+
+alberta,129,60,3	duplicate(GM Online List)	GM Online List#1	858
+alberta,50,252,3	duplicate(GM Online List)	GM Online List#2	858
+aldebaran,136,119,6	duplicate(GM Online List)	GM Online List#3	858
+amatsu,102,154,6	duplicate(GM Online List)	GM Online List#4	858
+ayothaya,212,174,6	duplicate(GM Online List)	GM Online List#5	858
+comodo,199,147,6	duplicate(GM Online List)	GM Online List#6	858
+einbech,183,134,6	duplicate(GM Online List)	GM Online List#7	858
+einbroch,53,203,6	duplicate(GM Online List)	GM Online List#8	858
+geffen,134,64,3	duplicate(GM Online List)	GM Online List#9	858
+gonryun,165,122,3	duplicate(GM Online List)	GM Online List#10	858
+hugel,89,151,3	duplicate(GM Online List)	GM Online List#11	858
+izlude,134,128,3	duplicate(GM Online List)	GM Online List#12	858
+lighthalzen,163,103,3	duplicate(GM Online List)	GM Online List#13	858
+louyang,213,109,3	duplicate(GM Online List)	GM Online List#14	858
+moscovia,220,191,3	duplicate(GM Online List)	GM Online List#15	858
+morocc,159,97,6	duplicate(GM Online List)	GM Online List#16	858
+niflheim,205,180,3	duplicate(GM Online List)	GM Online List#17	858
+payon,177,228,3	duplicate(GM Online List)	GM Online List#18	858
+payon,183,103,6	duplicate(GM Online List)	GM Online List#19	858
+rachel,119,146,3	duplicate(GM Online List)	GM Online List#20	858
+veins,218,128,3	duplicate(GM Online List)	GM Online List#21	858
+yuno,169,187,3	duplicate(GM Online List)	GM Online List#22	858
+umbala,90,159,3	duplicate(GM Online List)	GM Online List#23	858
+xmas,144,136,3	duplicate(GM Online List)	GM Online List#24	858
+mid_camp,204,292,3	duplicate(GM Online List)	GM Online List#25	858
+dicastes01,187,191,4	duplicate(GM Online List)	GM Online List#26	858
+brasilis,207,102,5	duplicate(GM Online List)	GM Online List#27	858
+splendide,183,125,5	duplicate(GM Online List)	GM Online List#28	858
+manuk,272,145,5	duplicate(GM Online List)	GM Online List#29	858

@@ -1,0 +1,18 @@
+-	script	sitstand	-1,{
+
+	OnSit:
+		if (issit()) {
+			stand;
+		} else {
+			sit;
+		}
+		
+		end;
+		
+		
+	OnInit:
+		bindatcmd "sit", strnpcinfo(3) +"::OnSit", 0, 80;
+		bindatcmd "stand", strnpcinfo(3) +"::OnSit", 0, 80;
+		end;
+	
+}

@@ -1,0 +1,86 @@
+//===== rAthena Script =======================================
+//= Reset NPC
+//===== By: ==================================================
+//= rAthena Dev Team
+//===== Current Version: =====================================
+//= 1.3
+//===== Compatible With: =====================================
+//= rAthena SVN
+//===== Description: =========================================
+//= Resets skills, stats, or both.
+//===== Additional Comments: =================================
+//= 1.0 First Version
+//= 1.1 Optimized for the greater good. [Kisuka]
+//= 1.2 Cleaning [Euphy]
+//= 1.3 All statuses removed upon skill reset. [Euphy]
+//============================================================
+
+prontera,143,231,5	script	Reset Girl	882,{
+
+if( usedstatnew == 0 ) { set usedstatnew, 1; }
+if( usedskillnew == 0 ) { set usedskillnew , 1; }
+
+	set .ResetStat, (( BaseLevel * BaseLevel * 30 ) *3) * usedstatnew;	// Zeny for stat reset
+	set .ResetSkill,(( JobLevel * JobLevel * 40 ) *3 ) * usedskillnew ;	// Zeny for skill reset
+	set .ResetBoth,((( BaseLevel * BaseLevel * 30 ) *3) * usedstatnew)+((( JobLevel * JobLevel * 40 ) *3 ) * usedskillnew);	// Zeny for resetting both together
+
+if( !freeresetstatusnew ) { set .ResetStat, 0; }
+if( !freeresetskillnew  ) { set .ResetSkill, 0; }
+if( !freeresetbothnew ) { set .ResetBoth, 0; }
+
+	mes "[Reset Girl]";
+	mes "I am the Reset Girl.";
+	mes "Reset Stats: "+ .ResetStat +"z";
+	mes "Reset Skills: "+ .ResetSkill +"z";
+	mes "Reset Both: "+ .ResetBoth +"z";
+	mes "Please select the service you want:";
+	next;
+	switch(select("^FF3355Reset Status:Reset Skill:Reset Both^000000:Cancel")) {
+	case 2:
+		mes "[Reset Girl]";
+		if (Zeny < .ResetSkill) {
+			mes "Sorry, you don't have enough Zeny.";
+			close;
+		}
+		set Zeny, Zeny-.ResetSkill;
+		if( usedskillnew < 15 ) { set usedskillnew, usedskillnew+1; }
+		if( !freeresetskillnew) { set freeresetskillnew, 1; }
+		if( !freeresetbothnew) { set freeresetbothnew, 1; }
+//		sc_end SC_ALL;
+		resetskill;
+		mes "There you go!";
+		close;
+	case 1:
+		mes "[Reset Girl]";
+		if (Zeny < .ResetStat) {
+			mes "Sorry, you don't have enough Zeny.";
+			close;
+		}
+		set Zeny, Zeny-.ResetStat;
+		if( usedstatnew < 15 ){ set usedstatnew, usedstatnew+1; }
+		if( !freeresetstatusnew ) { set freeresetstatusnew, 1; }
+		if( !freeresetbothnew ) { set freeresetbothnew, 1; }
+		resetstatus;
+		mes "Here you go!";
+		close;
+	case 3:
+		mes "[Reset Girl]";
+		if (Zeny < .ResetBoth) {
+			mes "Sorry, you don't have enough Zeny.";
+			close;
+		}
+		set Zeny, Zeny-.ResetBoth;
+		//sc_end SC_ALL;
+		if( usedstatnew < 15 ){ set usedstatnew, usedstatnew+1; }
+		if( usedskillnew < 15 ) { set usedskillnew, usedskillnew+1; }
+		if( !freeresetstatusnew) { set freeresetstatusnew, 1; }
+		if( !freeresetskillnew) { set freeresetskillnew, 1; }
+		if( !freeresetbothnew) { set freeresetbothnew, 1; }
+		resetskill;
+		resetstatus;
+		mes "There you go!";
+		close;
+	case 4:
+		close;
+	}
+}

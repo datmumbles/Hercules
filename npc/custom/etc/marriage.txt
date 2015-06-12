@@ -15,7 +15,7 @@
 // Configuration Variables:
 -	script	marriage_init	-1,{
 OnInit:
-	set $@wed_allow, 0;	//If 1, allows same sex marriages.
+	set $@wed_allow, 1;	//If 1, allows same sex marriages.
 	set $@wed_veil, 0;	//Set to 0 to disable veil check on the bride
 
 //Id of the item that is traded for the wedding ring (use 0 to disable):

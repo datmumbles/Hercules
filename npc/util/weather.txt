@@ -48,24 +48,24 @@ setarray $@weatmap$[0], "odin_tem01", "odin_tem02", "odin_tem03";
 callfunc "random_weather";
 
 //Ayothaya
-setarray $@weatmap$[0], "ayothaya", "ayo_fild01", "ayo_fild02";
+setarray $@weatmap$[0], "ayo_fild01", "ayo_fild02";
 callfunc "random_weather";
 
 //Amatsu & Amatsu Dungeon
-setarray $@weatmap$[0], "amatsu", "ama_fild01", "ama_dun02";
+setarray $@weatmap$[0], "ama_fild01", "ama_dun02";
 callfunc "random_weather";
 
 //Louyang
-setarray $@weatmap$[0], "louyang", "lou_fild01", "lou_dun01";
+setarray $@weatmap$[0], "lou_fild01", "lou_dun01";
 callfunc "random_weather";
 
 //Gonryun & Gonryun Dungeon
 //The town itself already has clouds permanently though
-setarray $@weatmap$[0], "gonryun", "gon_fild01", "gon_dun02", "gon_dun03";
+setarray $@weatmap$[0], "gon_fild01", "gon_dun02", "gon_dun03";
 callfunc "random_weather";
 
 //Brasilis
-setarray $@weatmap$[0], "brasilis", "bra_fild01";
+setarray $@weatmap$[0], "bra_fild01";
 callfunc "random_weather";
 
 //Nameless Island (Night)
@@ -88,10 +88,6 @@ callfunc "random_weather";
 setarray $@weatmap$[0], "tur_dun01";
 callfunc "random_weather";
 
-//Moscovia
-setarray $@weatmap$[0], "moscovia";
-callfunc "random_weather";
-
 //Moscovia Field 1 (Whale Area)
 setarray $@weatmap$[0], "mosk_fild01";
 callfunc "random_weather";
@@ -100,69 +96,66 @@ callfunc "random_weather";
 setarray $@weatmap$[0], "mosk_fild02", "mosk_dun01", "mosk_dun02", "mosk_dun03";
 callfunc "random_weather";
 
-//Jawaii
-setarray $@weatmap$[0], "jawaii";
-callfunc "random_weather";
 
 //Bibilan Dungeon (Outside)
 setarray $@weatmap$[0], "izlu2dun";
 callfunc "random_weather";
 
 //Rachel
-setarray $@weatmap$[0], "rachel", "ra_temple", "ra_fild01", "ra_fild02", "ra_fild03", "ra_fild04", "ra_fild05", "ra_fild06", "ra_fild07", "ra_fild08", "ra_fild09", "ra_fild10", "ra_fild11", "ra_fild12", "ra_fild13";
+setarray $@weatmap$[0], "ra_temple", "ra_fild01", "ra_fild02", "ra_fild03", "ra_fild04", "ra_fild05", "ra_fild06", "ra_fild07", "ra_fild08", "ra_fild09", "ra_fild10", "ra_fild11", "ra_fild12", "ra_fild13";
 callfunc "random_weather";
 
 //Veins
-setarray $@weatmap$[0], "veins", "aru_gld", "ve_fild01", "ve_fild02", "ve_fild03", "ve_fild04", "ve_fild05", "ve_fild06", "ve_fild07";
+setarray $@weatmap$[0], "aru_gld", "ve_fild01", "ve_fild02", "ve_fild03", "ve_fild04", "ve_fild05", "ve_fild06", "ve_fild07";
 callfunc "random_weather";
 
 //Lighthalzen
-setarray $@weatmap$[0], "lighthalzen", "lhz_fild01", "lhz_fild02", "lhz_fild03";
+setarray $@weatmap$[0], "lhz_fild01", "lhz_fild02", "lhz_fild03";
 callfunc "random_weather";
 
 //Einbroch & Einbech
-setarray $@weatmap$[0], "einbroch", "einbech", "ein_fild01", "ein_fild02", "ein_fild03", "ein_fild04", "ein_fild05", "ein_fild06", "ein_fild07", "ein_fild08", "ein_fild09", "ein_fild10";
+setarray $@weatmap$[0], "ein_fild01", "ein_fild02", "ein_fild03", "ein_fild04", "ein_fild05", "ein_fild06", "ein_fild07", "ein_fild08", "ein_fild09", "ein_fild10";
 callfunc "random_weather";
 
 //Yuno
-setarray $@weatmap$[0], "yuno", "sch_gld", "yuno_fild01", "yuno_fild02", "yuno_fild03", "yuno_fild04", "yuno_fild05", "yuno_fild06", "yuno_fild07", "yuno_fild08", "yuno_fild09", "yuno_fild10", "yuno_fild11", "yuno_fild12";
+setarray $@weatmap$[0], "sch_gld", "yuno_fild01", "yuno_fild02", "yuno_fild03", "yuno_fild04", "yuno_fild05", "yuno_fild06", "yuno_fild07", "yuno_fild08", "yuno_fild09", "yuno_fild10", "yuno_fild11", "yuno_fild12";
 callfunc "random_weather";
 
 //Hugel
-setarray $@weatmap$[0], "hugel", "hu_fild01", "hu_fild02", "hu_fild03", "hu_fild04", "hu_fild05", "hu_fild06", "hu_fild07";
+setarray $@weatmap$[0], "hu_fild01", "hu_fild02", "hu_fild03", "hu_fild04", "hu_fild05", "hu_fild06", "hu_fild07";
 callfunc "random_weather";
 
 //Niflheim
-setarray $@weatmap$[0], "niflheim", "nif_fild01", "nif_fild02";
+setarray $@weatmap$[0], "nif_fild01", "nif_fild02";
 callfunc "random_weather";
 
 //Aldebaran & Mt. Mjolnir
-setarray $@weatmap$[0], "aldebaran", "alde_gld", "mjolnir_01", "mjolnir_02", "mjolnir_03", "mjolnir_04", "mjolnir_05", "mjolnir_06", "mjolnir_07", "mjolnir_08", "mjolnir_09", "mjolnir_10", "mjolnir_11", "mjolnir_12";
+setarray $@weatmap$[0], "alde_gld", "mjolnir_01", "mjolnir_02", "mjolnir_03", "mjolnir_04", "mjolnir_05", "mjolnir_06", "mjolnir_07", "mjolnir_08", "mjolnir_09", "mjolnir_10", "mjolnir_11", "mjolnir_12";
 callfunc "random_weather";
 
 //Geffen & Glast Heim
-setarray $@weatmap$[0], "geffen", "glast_01", "gef_fild00", "gef_fild01", "gef_fild02", "gef_fild03", "gef_fild04", "gef_fild05", "gef_fild06", "gef_fild07", "gef_fild08", "gef_fild09", "gef_fild10", "gef_fild11", "gef_fild12", "gef_fild13", "gef_fild14";
+setarray $@weatmap$[0], "glast_01", "gef_fild00", "gef_fild01", "gef_fild02", "gef_fild03", "gef_fild04", "gef_fild05", "gef_fild06", "gef_fild07", "gef_fild08", "gef_fild09", "gef_fild10", "gef_fild11", "gef_fild12", "gef_fild13", "gef_fild14";
 callfunc "random_weather";
 
 //Prontera, Izlude & Hidden Temple
-setarray $@weatmap$[0], "prontera", "izlude", "prt_gld", "prt_monk", "prt_fild00", "prt_fild01", "prt_fild02", "prt_fild03", "prt_fild04", "prt_fild05", "prt_fild06", "prt_fild07", "prt_fild08", "prt_fild09", "prt_fild10", "prt_fild11", "prt_maze01", "prt_maze02", "prt_maze03";
+setarray $@weatmap$[0], "prt_gld", "prt_monk", "prt_fild00", "prt_fild01", "prt_fild02", "prt_fild03", "prt_fild04", "prt_fild05", "prt_fild06", "prt_fild07", "prt_fild08", "prt_fild09", "prt_fild10", "prt_fild11", "prt_maze01", "prt_maze02", "prt_maze03";
 callfunc "random_weather";
 
 //Umbala & Yggdrasil Tree
-setarray $@weatmap$[0], "umbala", "um_fild01", "um_fild02", "um_fild03", "um_fild04", "yggdrasil01";
+setarray $@weatmap$[0], "um_fild01", "um_fild02", "um_fild03", "um_fild04", "yggdrasil01";
 callfunc "random_weather";
 
 //Comodo
-setarray $@weatmap$[0], "comodo", "cmd_fild01", "cmd_fild02", "cmd_fild03", "cmd_fild04", "cmd_fild05", "cmd_fild06", "cmd_fild07", "cmd_fild08", "cmd_fild09";
+setarray $@weatmap$[0], "cmd_fild01", "cmd_fild02", "cmd_fild03", "cmd_fild04", "cmd_fild05", "cmd_fild06", "cmd_fild07", "cmd_fild08", "cmd_fild09";
 callfunc "random_weather";
 
 //Morroc
 //Not used: moc_fild20, moc_fild21, moc_fild22
-setarray $@weatmap$[0], "morocc", "moc_ruins", "moc_fild01", "moc_fild02", "moc_fild03", "moc_fild07", "moc_fild11", "moc_fild12", "moc_fild13", "moc_fild16", "moc_fild17", "moc_fild18", "moc_fild19";
+setarray $@weatmap$[0], "moc_ruins", "moc_fild01", "moc_fild02", "moc_fild03", "moc_fild07", "moc_fild11", "moc_fild12", "moc_fild13", "moc_fild16", "moc_fild17", "moc_fild18", "moc_fild19";
 callfunc "random_weather";
 
 //Payon, Archer's Village & Alberta
-setarray $@weatmap$[0], "payon", "pay_arche", "alberta", "pay_gld", "pay_fild01", "pay_fild02", "pay_fild03", "pay_fild04", "pay_fild05", "pay_fild06", "pay_fild07", "pay_fild08", "pay_fild09", "pay_fild10", "pay_fild11";
+setarray $@weatmap$[0], "pay_arche", "alberta", "pay_gld", "pay_fild01", "pay_fild02", "pay_fild03", "pay_fild04", "pay_fild05", "pay_fild06", "pay_fild07", "pay_fild08", "pay_fild09", "pay_fild10", "pay_fild11";
 callfunc "random_weather";
 }
 

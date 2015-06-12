@@ -1,0 +1,18 @@
+-	script	daynnight	-1,{
+
+end;
+OnClock0000:
+OnClock0600:
+OnClock1200:
+OnClock1800:
+day;
+end;
+
+OnClock0300:
+OnClock0900:
+OnClock1500:
+OnClock2100:
+night;
+end;
+
+}

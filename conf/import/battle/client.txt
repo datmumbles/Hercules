@@ -42,7 +42,7 @@ hide_woe_damage: yes
 pet_hair_style: 100
 
 // Visible area size (how many squares away from a player can they see)
-area_size: 14
+area_size: 20
 
 // Maximum walk path (how many cells a player can walk going to cursor)
 // default: 17(official)

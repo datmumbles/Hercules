@@ -1,0 +1,56 @@
+moc_para01,103,92	warp	edenroom2#2	1,1,moc_para01,52,27
+
+moc_para01,56,27,0	script	edenroom2#1	45,2,2,{
+
+if ( getgroupid() > 0 )
+	{
+		warp "moc_para01",107,92;
+		end;
+	}
+if (isequipped(5189,5206))
+	{
+		warp "moc_para01",107,92;
+		end;
+	}
+	else
+	{
+		mes "To enter room 2 you need";
+		mes "the following items equipped:";
+		mes "-^0f12abAutumn Leaves (Room 1)^000000 and";
+		mes "-^0f12abRomantic White Flower";
+		mes "(Room 1)^000000 or ^0f12ab VIP Status^000000.";
+		next;
+		mes "You can get them here in the ElariaRO Quest Group!";
+		close;
+	}
+}
+
+// Warp nach oben
+
+moc_para01,48,164	warp	edenroom3#2	1,1,moc_para01,48,23
+
+moc_para01,48,16,0	script	edenroom3#1	45,2,2,{
+
+if ( getgroupid() > 0 )
+	{
+		warp "moc_para01",48,169;
+		end;
+	}
+
+if (isequipped(5102,5307))
+	{
+		warp "moc_para01",48,169;
+		end;
+	}
+	else
+	{
+		mes "To enter room 3 you need";
+		mes "the following items equipped:";
+		mes "-^0f12abBlank Eyes (Room 2)^000000 and";
+		mes "-^0f12abCarmen Miranda's Hat";
+		mes "(Room 2)^000000 or ^0f12ab VIP Status^000000.";
+		next;
+		mes "You can get them here in the ElariaRO Quest Group!";
+		close;
+	}
+}

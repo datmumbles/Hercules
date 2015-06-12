@@ -1,0 +1,1166 @@
+// ------------------------------------------------------------------------------------------
+// ------ rAthena Script Release
+// Title: Super Kafra "All In One" Script
+// Author: jTynne - justin@justintynne.com
+// Current Version: 1.0 (Public), December 7th, 2011
+// Version History:
+//	v1.0: This is the unoptimized release of a Kafra upgrade script.
+//	      Features:
+//	      Healer, Storage, Mail, Auctions, Skill/Status Reset,
+//	      Last Warp Function, Login Event Options
+//	Important: Future revisions will adjust placement/NPC directions.
+// Notes:
+//	Feel free to adjust this script to your liking. Please do not redistribute
+//	without giving proper credit and a link back to my site. (justintynne.com)
+//	Thank you!
+// ------------------------------------------------------------------------------------------
+ -	script	Player Services::allinone	117,{
+// Options
+// To enable a feature, set it to 1.
+// Refer to the comments to the right for full details.
+set $pshealer,0; 				// Allow free 100% heals when NPC is spoken to. Default: Enabled (1)
+set $healanywhere,0; 				// Allow players to heal from maps not flagged as 'town' maps. Default: Disabled (0)
+set $storageanywhere,1; 			// Allow storage access from maps not flagged as 'town' maps. Default: Disabled (0)
+set $mailanywhere,1; 				// Allow mail access from maps not flagged as 'town' maps. Default: Disabled (0) Note: You must set each map as a "town" via mapflag. See npc/other/mail.txt for the format. If you fail to do this, mail cannot be accessed from many maps.
+set .@n$,"^003377[ Kafra Services ]^006699"; 	// Name displayed in the NPC's dialogue. Changes NPC dialogue colors as well. Default: Player Services, 003377 (Name), 006699 (Content)
+set $saveanywhere,1; 				// Allow players to save from maps not flagged as 'town' maps. Default: Disabled (0)
+set $auctionanywhere,1; 			// Allow players to access auction window from maps not flagged as 'town' maps. Default: Disabled (0)
+set $resetanywhere,1; 				// Allow players to save from maps not flagged as 'town' maps. Default: Disabled (0)
+set $allresetprice,50000; 			// Price to reset both Status and Skill Points. Default: 50,000z
+set $skresetprice,35000; 			// Price to reset Skill Points. Default: 35,000z
+set $stresetprice,35000; 			// Price to reset Status Points. Default: 35,000z
+set $@JC_MinimumJB, 40; //Minimum job level for changing between 2nd and advance Class (Default : 40)
+set $@JC_Plat, 1; //Give Platinum skills on Jobchange (Default : 1-yes)
+set $@JC_SupNovM, 45; //Base Level to change into Super Novice (Default : 45)
+
+getmapxy (.@map$, .@x, .@y, 0);
+if($pshealer == 1) { 
+if($healanywhere == 0) { if(getmapflag(.@map$,mf_town) == 1) { 
+percentheal 100,100;}}}
+if(isnight() == 1) { set .@daynight$,"this evening"; } 
+else { set .@daynight$,"this fine day"; }
+
+
+	mes .@n$;
+	mes "Hello, "+strcharinfo(0)+"! I'm able to teleport you to various locations, open your storage or set your save point to your current location.";
+	mes "How may I assist you "+.@daynight$+"?";
+	next;
+	menu "Warper",L_Warper,"Open Storage",L_storage,"Open Guild Storage",L_gstorage,"Save Current Location",L_save,"Rental Service",L_rental;
+
+L_gstorage:
+
+.@char_id = getcharid(0);
+.@guild_id = getcharid(2);
+
+if( !.@guild_id ){
+	mes "You dont have any guild.";
+}else{
+	query_sql( "SELECT `storage_restriction` FROM `guild` WHERE `guild_id` = '"+.@guild_id+"'",.@restriction );
+	query_sql( "SELECT `position` FROM `guild_member` WHERE `char_id` = '"+.@char_id+"'",.@position );
+
+	switch( select( "Access Guild Storage",( .@position )?"":"Edit Restriction" ) ){
+		case 1:
+			if( .@restriction && .@restriction & ( 2 << .@position ) ){
+				mes "Your position cant access this Storage..";
+			}else{
+				mes "Storage opened.";
+				guildopenstorage();
+			}
+			break;
+		case 2:
+			query_sql( "SELECT `position`,`name` FROM `guild_position` WHERE `guild_id` = '"+.@guild_id+"'",.@guild_position,.@guild_position_name$ );
+			do{
+				.@menu$ = "";
+				.@i = 1;
+				while( .@i < .guild_max_position ){
+					.@menu$ = .@menu$ + (( .@restriction & ( 2 << .@i) )?"^FF0000[Disabled]":"^EE55FF[Enabled]" )+" "+.@guild_position_name$[.@i] +"^000000" +":";
+					.@i++;
+				}
+				mes "Select a Position";
+				mes "^FF0000RED - Disable Access^000000";
+				.@i = select( .@menu$+":Done" );
+				if( .@i <= .guild_max_position ){
+					.@bitvalue = ( 2 << .@i );
+					if( .@restriction & .@bitvalue ){
+						.@restriction -= .@bitvalue;
+						mes "Position : ^0055FF"+.@guild_position_name$[.@i]+"^000000 granted Storage Access.";
+					}else{ 
+						mes "Position : ^0055FF"+.@guild_position_name$[.@i]+"^000000 disabled Storage Access.";
+						.@restriction += .@bitvalue;
+					}
+					next;
+				}
+			}while( select( "Continue Edit","Finished Edit" ) == 1 );
+			query_sql( "UPDATE `guild` SET `storage_restriction` = '"+.@restriction+"' WHERE `guild_id` = '"+.@guild_id+"'" );
+			mes "Guild Storage Restriction updated.";
+		default: break;
+	}
+}
+close;
+
+OnInit:
+.guild_max_position = 31;
+end;
+L_Plati:
+	mes "[Platinum Skill NPC]";
+	mes "I can give you the special skills available to your job.";
+	mes "Would you like these skills now?";
+	next;
+	if (select("Yes Please:No") == 2) {
+		mes "[Platinum Skill NPC]";
+		mes "Have a nice day... >.>";
+		close;
+	}
+	skill 142,1,0;
+	switch(BaseClass) {
+		case 0: if (Class !=23) skill 143,1,0; break;
+		case 1: skill 144,1,0; skill 145,1,0; skill 146,1,0; break;
+		case 2: skill 157,1,0; break;
+		case 3: skill 147,1,0; skill 148,1,0; break;
+		case 4: skill 156,1,0; break;
+		case 5: skill 153,1,0; skill 154,1,0; skill 155,1,0; break;
+		case 6: skill 149,1,0; skill 150,1,0; skill 151,1,0; skill 152,1,0; break;
+		default: break;
+	}
+	switch(BaseJob) {
+		case 7: skill 1001,1,0; break;
+		case 8: skill 1014,1,0; break;
+		case 9: skill 1006,1,0; break;
+		case 10: skill 1012,1,0; skill 1013,1,0; break;
+		case 11: skill 1009,1,0; break;
+		case 12: skill 1003,1,0; skill 1004,1,0; break;
+		case 14: skill 1002,1,0; break;
+		case 15: skill 1015,1,0; skill 1016,1,0; break;
+		case 16: skill 1007,1,0; skill 1008,1,0; skill 1017,1,0; skill 1018,1,0; skill 1019,1,0; break;
+		case 17: skill 1005,1,0; break;
+		case 18: skill 238,1,0; break;
+		case 19: skill 1010,1,0; break;
+		case 20: skill 1011,1,0; break;
+		default: break;
+	}
+	mes "[Platinum Skill NPC]";
+	mes "There you go!";
+	close;
+	
+	
+L_Warper:
+
+	function AddTown;
+	function AddDungeon;
+	function AddField;
+	function LastWarp;
+
+	//Activate|Deactivate menu here
+	set .lastwarp, 1;
+	set .towns, 1;
+	set .dungeons, 1;
+	set .qdungeons,1 ;
+	set .fields, 0;
+	set .other, 1;
+
+	//Set warp fee here
+	set .townfee, 1000;
+	set .dungeonfee, 3000;
+	set .fieldfee, 250;
+	set .lastwarpfeetown, 1500;
+	set .lastwarpfeedun, 3500;
+	set .questdungeonfee, 4000;
+	set .questtownfee, 1500;
+	set .lastwarpfeeparty, 6000;
+	set .townfee40, 0;
+	set .dungeonfee40, 0;
+	set .lastwarpfee40, 0;
+	set .questdungeonfee40, 0;
+	
+	//Checks if maps are loaded, (prevents out of index)
+	if(.mapsloaded==1) goto L_warpmenu;
+	set .mapsloaded, 1;
+	
+	//Add Towns here
+	AddTown("Prontera", "prontera", 155, 183);
+	AddTown("Alberta", "alberta", 116, 56);
+	AddTown("Aldebaran", "aldebaran", 140, 131);
+	AddTown("Amatsu", "amatsu", 107, 148);
+	AddTown("Ayothaya", "ayothaya", 150, 163);
+	AddTown("Brasilis", "brasilis", 198, 86);
+	AddTown("Comodo", "comodo", 209, 143);
+	AddTown("Einbech (Mining Village)", "einbech", 197, 130);
+	AddTown("Einbroch", "einbroch", 64, 200);
+	AddTown("Geffen", "geffen", 119, 59);
+	AddTown("Gonryun", "gonryun", 159, 116);
+	AddTown("Hugel", "hugel", 96, 145);
+	AddTown("Izlude", "izlude", 128, 114);
+	AddTown("Lighthalzen", "lighthalzen", 158, 92);
+	AddTown("Louyang", "louyang", 210, 108);
+	AddTown("Lutie", "xmas", 147, 134);
+	AddTown("Moscovia", "moscovia", 214, 183);
+	AddTown("Morroc", "morocc", 156, 93);
+	AddTown("Niflheim", "niflheim", 197, 177);
+	AddTown("Payon", "payon", 172, 102);
+	AddTown("Pharos Light House","cmd_fild07",97,136);
+	AddTown("Rachel", "rachel", 130, 137);
+	AddTown("Veins", "veins", 216, 123);
+	AddTown("Yuno", "yuno", 155, 185);
+	AddTown("Umbala", "umbala", 89, 157);
+
+	
+	//Add Dungeons here
+	AddDungeon("Abbey, Cursed Monastery", "ve_fild07", 130, 130);
+	AddDungeon("Abyss Lakes", "hu_fild05", 168, 300);
+	AddDungeon("Amatsu Dungeon", "ama_in02", 119, 181);
+        AddDungeon("Anthell", "cmd_fild08", 330, 355);
+        AddDungeon("Ayothaya Dungeon", "ayo_fild01", 127, 197);
+        AddDungeon("Byalan Dungeon", "izlu2dun", 108, 89);
+        AddDungeon("Coal Mines", "mjolnir_02", 79, 363);
+        AddDungeon("Culverts", "prt_fild05", 274, 208);
+        AddDungeon("Glast Heim", "gef_fild06", 27, 304);
+        AddDungeon("Hidden Dungeon", "prt_fild01", 136, 369);
+        AddDungeon("Ice Dungeon", "ra_fild01", 233, 327);
+        AddDungeon("Juperos Dungeon", "yuno_fild07", 212, 175);
+        AddDungeon("Kiel Dungeon", "yuno_fild08", 74, 174);
+        AddDungeon("Magma Dungeon", "yuno_fild03", 34, 139);
+        AddDungeon("Orc Dungeon", "gef_fild10", 65, 335);
+        AddDungeon("Payon Dungeon", "pay_arche", 39, 131);
+        AddDungeon("Pyramids", "moc_ruins", 60, 161);
+        AddDungeon("Rachel Sanctuary", "ra_temple", 119, 175);
+        AddDungeon("Sphinx", "moc_fild19", 100, 99);
+        AddDungeon("Sunken Ship", "alb2trea", 76, 100);
+        AddDungeon("Thanatos Tower", "hu_fild01", 140, 158);
+        AddDungeon("Thor Volcano", "ve_fild03", 168, 235);
+	
+	//AddFields here
+	//AddField("<Map Menu Name>", <"map name">, <x>, <y>);
+	AddField("Auction Hall", "auction_01", 21, 43);
+	
+L_warpmenu:
+
+	mes "[^FF7700Kafra Warper^000000]";
+	mes "Welcome!";
+
+if( BaseLevel <= 60 )
+	{
+		mes "Oh Dear!";
+		mes "I have noticed, you are not that experienced yet...";
+		mes "Let me help you a bit until you have reached Level 60!";
+		mes "Until then you won't have to pay any warping fees!"; 
+		mes "Isn't that great?";
+ 		menu "Towns (^FF0000"+.townfee40+"z^000000)","Other (^FF0000z^000000)",L_40OTH,"Last Warp [^0000FF"+((@lastwarpname$)?@lastwarpname$:"^0000FF-empty-^000000")+"^000000](^FF0000"+.lastwarpfee40+"z^000000)";
+
+L_40QTOW:
+	switch(select("El Dicastes:Manuk:Mid Camp:Splendide"))
+	{
+		case 1:
+			if(ep13_ryu > 99 )
+				{
+					warp "dicastes01",198,187;
+					end;
+				}
+				else goto NoQuest;
+		case 2:
+			if(ep13_ryu > 98)
+				{
+					warp "manuk",278,139;
+					end;
+				}
+			else goto NoQuest;
+		case 3:
+			if(ep13_ryu > 98)
+				{
+					warp "mid_camp",209,283;
+					end;
+				}
+			else goto NoQuest;
+		case 4:
+			if(ep13_ryu > 98)
+				{
+					warp "splendide",190,119;
+					end;
+				}
+			else goto NoQuest;	
+	}
+L_40QDUN:
+	switch(select("Abbey, Cursed Monastery:Amatsu Dungeon:Ayothaya Dungeon:Kiel Dungeon:Lighthalzen Bio Lab:Moscovia Dungeon:Nidhogg's Dungeon:Rachel Sanctuary:Splendide:Turtle Island"))
+	{
+		case 1:
+			if( aru_monas > 19 )
+				{					
+					warp "nameless_n",259,215;
+					end;		
+				}
+			else goto NoQuest;
+		case 2:
+			if( event_amatsu >= 6)
+				{					
+					warp "ama_dun01",229,12;
+					end;		
+				}
+			else goto NoQuest;	
+		case 3:
+			if(ayodunquest >= 2)
+				{					
+					warp "ayo_fild02",280,149;
+					end;		
+				}
+			else goto NoQuest;	
+
+		case 4:
+			if(KielHyreQuest >= 38)
+				{					
+					warp "kh_dun01",4,226;
+					end;		
+				}
+			else goto NoQuest;
+		case 5:
+			if(MISC_QUEST & 512)
+				{					
+					warp "lhz_dun01",150,286;
+					end;		
+				}
+			else goto NoQuest;	
+
+		case 6:
+			if(mos_whale_edq >= 38)
+				{						
+					warp "mosk_dun01",189,47;
+					end;		
+				}
+			else goto NoQuest;
+		case 7:
+			if ( ep13_mdrama > 4 )
+				{
+					warp "spl_fild01",366,110;
+					end;
+				}
+			else goto NoQuest;
+		case 8:
+			if(MISC_QUEST & 8192)
+				{					
+					warp "ra_san01",139,134;
+					end;		
+				}
+			else goto NoQuest;
+
+		case 9:
+			if (TURTLE || (MISC_QUEST & 65536))
+				{
+					warp "tur_dun01",157,39;
+					end;
+				}
+			else goto NoQuest;
+}
+		NoQuest:
+			next;
+			mes "[Kafra Service]";
+			mes "I'm sorry, you don't seem to have the required quest completed.";
+			close;
+			
+		NoZenys:
+			mes "[Kafra Service]";
+			mes "You don't have enough money.";
+			close;
+L_40OTH:
+
+	switch(select("Auction Hall:PvP:Battleground"))
+	{
+		case 1:
+			warp "auction_01",21,43;
+			close;
+		case 2:
+			warp "prt_in",64,136;
+			close;
+		case 3:
+			mes "Battleground are deactivated at the moment";
+			mes "Please try again later";
+			//warp "bat_room",154,150;
+			close;
+	}
+
+L_40TOWN:
+	if (getpartyleader(getcharid(1),2) != getcharid(0)){
+	set .@townmenu$,"";
+	for (set .@i,0; .@i < getarraysize(.townname$); set .@i,.@i+1) {
+		if (.@i) set .@townmenu$,.@townmenu$+":";
+			set .@townmenu$,.@townmenu$+.townname$[.@i];
+	}
+	set .@selection,select(.@townmenu$)-1;
+	warp .townmap$[.@selection],.townx[.@selection],.towny[.@selection];
+	LastWarp(.townname$[.@selection], .townmap$[.@selection], .townx[.@selection], .towny[.@selection]);
+	end;
+	}
+	else
+	{
+		getpartymember(getcharid(1)),1;
+       	getpartymember(getcharid(1)),2;
+       	set @partymembercount,$@partymembercount;
+       	copyarray .@partymembercid[0],$@partymembercid[0],.@partymembercount;
+       	copyarray .@partymemberaid[0],$@partymemberaid[0],.@partymembercount;
+
+	switch(select("Solo Warp:Party Warp") ) {
+
+		case 1:
+	set .@townmenu$,"";
+	for (set .@i,0; .@i < getarraysize(.townname$); set .@i,.@i+1) {
+		if (.@i) set .@townmenu$,.@townmenu$+":";
+			set .@townmenu$,.@townmenu$+.townname$[.@i];
+	}
+
+	set .@selection,select(.@townmenu$)-1;
+	warp .townmap$[.@selection],.townx[.@selection],.towny[.@selection];
+	LastWarp(.townname$[.@selection], .townmap$[.@selection], .townx[.@selection], .towny[.@selection]);
+	end;
+		case 2:
+	set .@townmenu$,"";
+	for (set .@i,0; .@i < getarraysize(.townname$); set .@i,.@i+1) {
+		if (.@i) set .@townmenu$,.@townmenu$+":";
+			set .@townmenu$,.@townmenu$+.townname$[.@i];
+	}
+	set .@selection,select(.@townmenu$)-1;
+	warpparty .townmap$[.@selection],.townx[.@selection],.towny[.@selection],getcharid(1);
+	LastWarp(.townname$[.@selection], .townmap$[.@selection], .townx[.@selection], .towny[.@selection]);
+	end;
+}
+}
+L_40DUN:
+
+	if (getpartyleader(getcharid(1),2) != getcharid(0)){
+	set .@dungeonmenu$,"";
+	for (set .@j,0; .@j < getarraysize(.dungeonname$); set .@j,.@j+1) {
+		if (.@j) set .@dungeonmenu$,.@dungeonmenu$+":";
+			set .@dungeonmenu$,.@dungeonmenu$+.dungeonname$[.@j];
+	}
+	set .@selection2,select(.@dungeonmenu$)-1;
+	warp .dungeonmap$[.@selection2],.dungeonx[.@selection2],.dungeony[.@selection2];
+	LastWarp(.dungeonname$[.@selection2], .dungeonmap$[.@selection2], .dungeonx[.@selection2], .dungeony[.@selection2]);
+	end;
+	}
+	else
+	{
+		getpartymember(getcharid(1)),1;
+       	getpartymember(getcharid(1)),2;
+       	set @partymembercount,$@partymembercount;
+       	copyarray .@partymembercid[0],$@partymembercid[0],.@partymembercount;
+       	copyarray .@partymemberaid[0],$@partymemberaid[0],.@partymembercount;
+
+	switch(select("Solo Warp:Party Warp") ) {
+
+		case 1:
+			set .@dungeonmenu$,"";
+			for (set .@j,0; .@j < getarraysize(.dungeonname$); set .@j,.@j+1) {
+			if (.@j) set .@dungeonmenu$,.@dungeonmenu$+":";
+			set .@dungeonmenu$,.@dungeonmenu$+.dungeonname$[.@j];
+			}
+			set .@selection2,select(.@dungeonmenu$)-1;
+			warp .dungeonmap$[.@selection2],.dungeonx[.@selection2],.dungeony[.@selection2];
+			LastWarp(.dungeonname$[.@selection2], .dungeonmap$[.@selection2], .dungeonx[.@selection2], .dungeony[.@selection2]);
+			end;
+		case 2:
+			set .@dungeonmenu$,"";
+			for (set .@j,0; .@j < getarraysize(.dungeonname$); set .@j,.@j+1) {
+			if (.@j) set .@dungeonmenu$,.@dungeonmenu$+":";
+			set .@dungeonmenu$,.@dungeonmenu$+.dungeonname$[.@j];
+			}
+			set .@selection2,select(.@dungeonmenu$)-1;
+			warpparty .dungeonmap$[.@selection2],.dungeonx[.@selection2],.dungeony[.@selection2],getcharid(1);
+			LastWarp(.dungeonname$[.@selection2], .dungeonmap$[.@selection2], .dungeonx[.@selection2], .dungeony[.@selection2]);
+			end;
+}
+}	
+L_40LW:
+
+	if (@lastwarpname$=="") close;
+	warp @lastwarpmap$, @lastwarpx, @lastwarpy;
+	end;
+
+L_40PLW:
+
+if (getcharid(1) == 0) {
+	next;
+        mes "You're not in a party.";
+	close;
+    } else if (getpartyleader(getcharid(1),2) != getcharid(0)) {
+	next;
+        mes "You are not the party leader.";
+	close;
+    } else {
+        getpartymember(getcharid(1)),1;
+        getpartymember(getcharid(1)),2;
+        set @partymembercount,$@partymembercount;
+        copyarray .@partymembercid[0],$@partymembercid[0],.@partymembercount;
+        copyarray .@partymemberaid[0],$@partymemberaid[0],.@partymembercount;
+		if (Zeny < .lastwarpfeeparty) goto L_nozeny;
+	if (@lastwarpname$=="") close;
+	set Zeny,Zeny-.lastwarpfeeparty;
+	warpparty @lastwarpmap$, @lastwarpx, @lastwarpy,getcharid(1);
+	end;
+}
+	}
+	switch(select(((.towns)?"Towns (^FF0000"+.townfee+"z^000000)":""),
+				  ((.dungeons)?"Dungeons (^FF0000"+.dungeonfee+"z^000000)":""),
+				  ((.fields)?"fields (^FF0000"+.fieldfee+"z^000000)":""),
+				((.qdungeons)?"Quest Towns (^FF0000"+.questtownfee+"z^000000)":""),
+				((.qdungeons)?"Quest Dungeons (^FF0000"+.questdungeonfee+"z^000000)":""),
+				((.other)?"Other (^FF00000z^000000)":""),
+				  ((.lastwarp)?"Last Warp [^0000FF"+((@lastwarpname$)?@lastwarpname$:"^0000FF-empty-^000000")+"^000000] (^FF0000"+.lastwarpfeetown+"z / "+.lastwarpfeedun+"z^000000)":""),
+				  ((.lastwarp)?"Party Last Warp [^0000FF"+((@lastwarpname$)?@lastwarpname$:"^0000FF-empty-^000000")+"^000000] (^FF0000"+.lastwarpfeeparty+"z^000000)":""),
+				  "Exit")) {
+
+case 1:
+
+	if (getpartyleader(getcharid(1),2) != getcharid(0)){
+	set .@townmenu$,"";
+	for (set .@i,0; .@i < getarraysize(.townname$); set .@i,.@i+1) {
+		if (.@i) set .@townmenu$,.@townmenu$+":";
+			set .@townmenu$,.@townmenu$+.townname$[.@i];
+	}
+	if (Zeny < .townfee) goto L_nozeny;
+	set .@selection,select(.@townmenu$)-1;
+	set Zeny,Zeny-.townfee;
+	warp .townmap$[.@selection],.townx[.@selection],.towny[.@selection];
+	LastWarp(.townname$[.@selection], .townmap$[.@selection], .townx[.@selection], .towny[.@selection]);
+	end;
+	}
+	else
+	{
+		getpartymember(getcharid(1)),1;
+       	getpartymember(getcharid(1)),2;
+       	set @partymembercount,$@partymembercount;
+       	copyarray .@partymembercid[0],$@partymembercid[0],.@partymembercount;
+       	copyarray .@partymemberaid[0],$@partymemberaid[0],.@partymembercount;
+
+	switch(select("Solo Warp:Party Warp") ) {
+
+		case 1:
+	set .@townmenu$,"";
+	for (set .@i,0; .@i < getarraysize(.townname$); set .@i,.@i+1) {
+		if (.@i) set .@townmenu$,.@townmenu$+":";
+			set .@townmenu$,.@townmenu$+.townname$[.@i];
+	}
+	if (Zeny < .townfee) goto L_nozeny;
+	set .@selection,select(.@townmenu$)-1;
+	set Zeny,Zeny-.townfee;
+	warp .townmap$[.@selection],.townx[.@selection],.towny[.@selection];
+	LastWarp(.townname$[.@selection], .townmap$[.@selection], .townx[.@selection], .towny[.@selection]);
+	end;
+		case 2:
+	set .@townmenu$,"";
+	for (set .@i,0; .@i < getarraysize(.townname$); set .@i,.@i+1) {
+		if (.@i) set .@townmenu$,.@townmenu$+":";
+			set .@townmenu$,.@townmenu$+.townname$[.@i];
+	}
+	if (Zeny < .townfee) goto L_nozeny;
+	set .@selection,select(.@townmenu$)-1;
+	set Zeny,Zeny-.townfee;
+	warpparty .townmap$[.@selection],.townx[.@selection],.towny[.@selection],getcharid(1);
+	LastWarp(.townname$[.@selection], .townmap$[.@selection], .townx[.@selection], .towny[.@selection]);
+	end;
+}
+}	
+case 2:
+	if (getpartyleader(getcharid(1),2) != getcharid(0)){
+	set .@dungeonmenu$,"";
+	for (set .@j,0; .@j < getarraysize(.dungeonname$); set .@j,.@j+1) {
+		if (.@j) set .@dungeonmenu$,.@dungeonmenu$+":";
+			set .@dungeonmenu$,.@dungeonmenu$+.dungeonname$[.@j];
+	}
+	if (Zeny < .dungeonfee) goto L_nozeny;
+	set .@selection2,select(.@dungeonmenu$)-1;
+	set Zeny,Zeny-.dungeonfee;
+	warp .dungeonmap$[.@selection2],.dungeonx[.@selection2],.dungeony[.@selection2];
+	LastWarp(.dungeonname$[.@selection2], .dungeonmap$[.@selection2], .dungeonx[.@selection2], .dungeony[.@selection2]);
+	break;
+	}
+	else
+	{
+		getpartymember(getcharid(1)),1;
+       	getpartymember(getcharid(1)),2;
+       	set @partymembercount,$@partymembercount;
+       	copyarray .@partymembercid[0],$@partymembercid[0],.@partymembercount;
+       	copyarray .@partymemberaid[0],$@partymemberaid[0],.@partymembercount;
+
+	switch(select("Solo Warp:Party Warp") ) {
+
+		case 1:
+			set .@dungeonmenu$,"";
+			for (set .@j,0; .@j < getarraysize(.dungeonname$); set .@j,.@j+1) {
+			if (.@j) set .@dungeonmenu$,.@dungeonmenu$+":";
+			set .@dungeonmenu$,.@dungeonmenu$+.dungeonname$[.@j];
+			}
+	if (Zeny < .dungeonfee) goto L_nozeny;
+			set .@selection2,select(.@dungeonmenu$)-1;
+			set Zeny,Zeny-.dungeonfee;
+			warp .dungeonmap$[.@selection2],.dungeonx[.@selection2],.dungeony[.@selection2];
+			LastWarp(.dungeonname$[.@selection2], .dungeonmap$[.@selection2], .dungeonx[.@selection2], .dungeony[.@selection2]);
+			break;
+		case 2:
+			set .@dungeonmenu$,"";
+			for (set .@j,0; .@j < getarraysize(.dungeonname$); set .@j,.@j+1) {
+			if (.@j) set .@dungeonmenu$,.@dungeonmenu$+":";
+			set .@dungeonmenu$,.@dungeonmenu$+.dungeonname$[.@j];
+			}
+	if (Zeny < .dungeonfee) goto L_nozeny;
+			set .@selection2,select(.@dungeonmenu$)-1;
+			set Zeny,Zeny-.dungeonfee;
+			warpparty .dungeonmap$[.@selection2],.dungeonx[.@selection2],.dungeony[.@selection2],getcharid(1);
+			LastWarp(.dungeonname$[.@selection2], .dungeonmap$[.@selection2], .dungeonx[.@selection2], .dungeony[.@selection2]);
+			break;
+}
+}		
+
+case 3:
+	set .@fieldmenu$,"";
+	for (set .@k,0; .@k < getarraysize(.fieldname$); set .@k,.@k+1) {
+		if (.@k) set .@fieldmenu$,.@fieldmenu$+":";
+			set .@fieldmenu$,.@fieldmenu$+.fieldname$[.@k];
+	}
+	set .@selection3,select(.@fieldmenu$)-1;
+	set Zeny,Zeny-.fieldfee;
+	warp .fieldmap$[.@selection3],.fieldx[.@selection3],.fieldy[.@selection3];
+	LastWarp(.fieldname$[.@selection3], .fieldmap$[.@selection3], .fieldx[.@selection3], .fieldy[.@selection3]);
+	break;
+case 4:
+	switch(select("El Dicastes:Manuk:Mid Camp:Splendide"))
+	{
+		case 1:
+			if(ep13_ryu > 99 )
+				{
+					if (Zeny < .questtownfee) goto L_nozeny;
+					set Zeny, Zeny - .questtownfee;		
+					warp "dicastes01",198,187;
+					end;
+				}
+				else goto NoQuest;
+		case 2:
+			if(ep13_ryu > 98)
+				{
+					if (Zeny < .questtownfee) goto L_nozeny;
+					set Zeny, Zeny - .questtownfee;
+					warp "manuk",278,139;
+					end;
+				}
+			else goto NoQuest;
+		case 3:
+			if(ep13_ryu > 98)
+				{
+					if (Zeny < .questtownfee) goto L_nozeny;
+					set Zeny, Zeny - .questtownfee;
+					warp "mid_camp",209,283;
+					end;
+				}
+			else goto NoQuest;
+		case 4:
+			if(ep13_ryu > 98)
+				{
+					if (Zeny < .questtownfee) goto L_nozeny;
+					set Zeny, Zeny - .questtownfee;
+					warp "splendide",190,119;
+					end;
+				}
+			else goto NoQuest;	
+	}
+case 5:
+	switch(select("Abbey, Cursed Monastery:Amatsu Dungeon:Ayothaya Dungeon:Kiel Dungeon:Lighthalzen Bio Lab:Moscovia Dungeon:Nidhogg's Dungeon:Rachel Sanctuary:Turtle Island"))
+	{
+		case 1:
+			if( aru_monas > 19 )
+				{	
+					if (Zeny < .questdungeonfee) goto L_nozeny;
+					set Zeny, Zeny - .questdungeonfee;				
+					warp "nameless_n",259,215;
+					end;		
+				}
+			else goto NoQuest;
+		case 2:
+			if( event_amatsu >= 6)
+				{
+					if (Zeny < .questdungeonfee) goto L_nozeny;	
+					set Zeny, Zeny - .questdungeonfee;				
+					warp "ama_dun01",229,12;
+					end;		
+				}
+			else goto NoQuest;	
+		case 3:
+			if(ayodunquest >= 2)
+				{	
+					if (Zeny < .questdungeonfee) goto L_nozeny;
+					set Zeny, Zeny - .questdungeonfee;				
+					warp "ayo_fild02",280,149;
+					end;		
+				}
+			else goto NoQuest;		
+		case 4:
+			if(KielHyreQuest >= 38)
+				{	
+					if (Zeny < .questdungeonfee) goto L_nozeny;
+					set Zeny, Zeny - .questdungeonfee;				
+					warp "kh_dun01",4,226;
+					end;		
+				}
+			else goto NoQuest;
+		case 5:
+			if(MISC_QUEST & 512)
+				{	
+					if (Zeny < .questdungeonfee) goto L_nozeny;	
+					set Zeny, Zeny - .questdungeonfee;			
+					warp "lhz_dun01",150,286;
+					end;		
+				}
+			else goto NoQuest;	
+		case 6:
+			if(mos_whale_edq >= 38)
+				{		
+					if (Zeny < .questdungeonfee) goto L_nozeny;	
+					set Zeny, Zeny - .questdungeonfee;						
+					warp "mosk_dun01",189,47;
+					end;		
+				}
+			else goto NoQuest;
+		case 7:
+			if ( ep13_mdrama > 4 )
+				{
+					if (Zeny < .questdungeonfee) goto L_nozeny;	
+					set Zeny, Zeny - .questdungeonfee;		
+					warp "spl_fild01",366,110;
+					end;
+				}
+			else goto NoQuest;
+		case 8:
+			if(MISC_QUEST & 8192)
+				{		
+					if (Zeny < .questdungeonfee) goto L_nozeny;	
+					set Zeny, Zeny - .questdungeonfee;					
+					warp "ra_san01",139,134;
+					end;		
+				}
+			else goto NoQuest;
+		case 9:		
+			if (TURTLE || (MISC_QUEST & 65536))
+				{
+					if (Zeny < .questdungeonfee) goto L_nozeny;
+					set Zeny, Zeny - .questdungeonfee;
+					warp "tur_dun01",157,39;
+					end;
+				}
+			else goto NoQuest;
+}
+case 6:
+	switch(select("Auction Hall:PvP:Battleground"))
+	{
+		case 1:
+			warp "auction_01",21,43;
+			close;
+		case 2:
+			warp "prt_in",64,136;
+			close;
+		case 3:
+			mes "Battleground are deactivated at the moment";
+			mes "Please try again later";
+			//warp "bat_room",154,150;
+			close;
+	}	
+case 7:
+	if (Zeny < .lastwarpfee) goto L_nozeny;
+	if (@lastwarpname$=="") close;
+	if (@lastwarpname$=="Prontera" || @lastwarpname$=="Alberta" || @lastwarpname$=="Aldebaran" || @lastwarpname$=="Amatsu" || @lastwarpname$=="Ayothaya" || @lastwarpname$=="Comodo" || @lastwarpname$=="Einbech (Mining Village)" || @lastwarpname$=="Einbroch" || @lastwarpname$=="Geffen" || @lastwarpname$=="Gonryun" || @lastwarpname$=="Hugel" || @lastwarpname$=="Izlude" || @lastwarpname$=="Lighthalzen" || @lastwarpname$=="Louyang" || @lastwarpname$=="Lutie" || @lastwarpname$=="Moscovia" || @lastwarpname$=="Morocc" || @lastwarpname$=="Niflheim" || @lastwarpname$=="Payon" || @lastwarpname$=="Rachel" || @lastwarpname$=="Veins" || @lastwarpname$=="Yuno" )
+		{
+			if (Zeny < .lastwarpfeetown) goto L_nozeny;
+			set Zeny,Zeny-.lastwarpfeetown;
+			warp @lastwarpmap$, @lastwarpx, @lastwarpy;
+			end;
+		}
+	else
+	{
+			if (Zeny < .lastwarpfeetown) goto L_nozeny;
+	set Zeny,Zeny-.lastwarpfeedun;
+	warp @lastwarpmap$, @lastwarpx, @lastwarpy;
+	end;
+	}
+case 8:
+if (getcharid(1) == 0) {
+        mes "You're not in a party.";
+	close;
+    } else if (getpartyleader(getcharid(1),2) != getcharid(0)) {
+        mes "You are not the party leader.";
+	close;
+    } else {
+        getpartymember(getcharid(1)),1;
+        getpartymember(getcharid(1)),2;
+        set @partymembercount,$@partymembercount;
+        copyarray .@partymembercid[0],$@partymembercid[0],.@partymembercount;
+        copyarray .@partymemberaid[0],$@partymemberaid[0],.@partymembercount;
+		if (Zeny < .lastwarpfeeparty) goto L_nozeny;
+	if (@lastwarpname$=="") close;
+	set Zeny,Zeny-.lastwarpfeeparty;
+	warpparty @lastwarpmap$, @lastwarpx, @lastwarpy,getcharid(1);
+	end;
+}
+	
+
+
+case 9:
+	next;
+	mes "[^FF7700Kafra Warper^000000]";
+	mes "Bye!";
+	close;
+	}	
+
+
+function AddTown {
+	if(getmapusers(getarg(1)) >= 0) {
+		set .townname$[getarraysize(.townname$)], getarg(0);
+		set .townmap$[getarraysize(.townmap$)], getarg(1);
+		set .townx[getarraysize(.townx)], getarg(2);
+		set .towny[getarraysize(.towny)], getarg(3);
+		return;
+	}
+	return;
+}
+	
+function AddDungeon {
+	if(getmapusers(getarg(1)) >= 0) {
+		set .dungeonname$[getarraysize(.dungeonname$)], getarg(0);
+		set .dungeonmap$[getarraysize(.dungeonmap$)], getarg(1);
+		set .dungeonx[getarraysize(.dungeonx)], getarg(2);
+		set .dungeony[getarraysize(.dungeony)], getarg(3);
+		return;
+	}
+	return;
+}
+
+function AddDungeon2 {
+	if(getmapusers(getarg(1)) >= 0) {
+		set .dungeonname1$[getarraysize(.dungeonname$)], getarg(0);
+		set .dungeonmap1$[getarraysize(.dungeonmap$)], getarg(1);
+		set .dungeonx1[getarraysize(.dungeonx)], getarg(2);
+		set .dungeony1[getarraysize(.dungeony)], getarg(3);
+		return;
+	}
+	return;
+}
+
+function AddDungeon3 {
+	if(getmapusers(getarg(1)) >= 0) {
+		set .dungeonname2$[getarraysize(.dungeonname$)], getarg(0);
+		set .dungeonmap2$[getarraysize(.dungeonmap$)], getarg(1);
+		set .dungeonx2[getarraysize(.dungeonx)], getarg(2);
+		set .dungeony2[getarraysize(.dungeony)], getarg(3);
+		return;
+	}
+	return;
+}
+
+
+function AddField {
+	if(getmapusers(getarg(1)) >= 0) {
+		set .fieldname$[getarraysize(.fieldname$)], getarg(0);
+		set .fieldmap$[getarraysize(.fieldmap$)], getarg(1);
+		set .fieldx[getarraysize(.fieldx)], getarg(2);
+		set .fieldy[getarraysize(.fieldy)], getarg(3);
+		return;
+	}
+	return;
+}
+
+function LastWarp {
+	set @lastwarpname$, getarg(0);
+	set @lastwarpmap$, getarg(1);
+	set @lastwarpx, getarg(2);
+	set @lastwarpy, getarg(3);
+	return;
+}
+
+L_mail:
+if($mailanywhere == 0) { if(getmapflag(.@map$,mf_town) == 0) { 
+mes .@n$; 
+mes "The administrative team has chosen to restrict mail from being accessed outside of town maps. Please head to the nearest town to access your mail."; 
+close; end; 
+}}
+if(#mailpw == 1) {
+mes .@n$;
+mes "Please insert your mail password to continue.";
+next;
+input .@pw$;
+if(.@pw$ == #mailpw$) {
+mes .@n$;
+mes "Would you like to simply open your mail, set an account password for extra security, or remove your mail password (not recommended)?";
+next;
+menu "Open Mail",-,"Set Mail Password",L_mpass,"Remove Password",L_pwmremove;
+close2;
+openmail;
+end;
+} 
+else {
+mes .@n$;
+mes "The password you inserted does not match the password on record for this account. Please try again.";
+close;
+end;
+}
+}
+else {
+mes .@n$;
+mes "Would you like to simply open your mail, or set an account password for extra security?";
+next;
+menu "Open Mail",-,"Set Mail Password",L_mpass;
+
+close2;
+openmail;
+end;
+}
+
+L_mpass:
+mes .@n$;
+mes "What would you like your password to be?";
+next;
+input .@temp1$;
+mes .@n$;
+mes "Please confirm that the password you entered is correct by re-typing it:";
+next;
+input .@temp2$;
+if(.@temp1$ == .@temp2$) {
+set #mailpw$,.@temp1$;
+set #mailpw,1;
+mes .@n$;
+mes "Your mail password has been set to: ^FF0000"+#mailpw$+"^000000";
+close;
+end;
+}
+else {
+mes .@n$;
+mes "The passwords you've input do not match. Please try again.";
+close;
+end;
+}
+
+L_pwmremove:
+mes .@n$;
+mes "Your mail password has been removed.";
+set #mailpw,0;
+set #mailpw$,"null";
+close;
+end;
+
+L_storage:
+if($storageanywhere == 0) { if(getmapflag(.@map$,mf_town) == 0) { 
+mes .@n$; 
+mes "The administrative team has chosen to restrict storage from being accessed outside of town maps. Please head to the nearest town to access your storage."; 
+close; end; 
+}}
+if(#storagepw == 1) {
+mes .@n$;
+mes "Please insert your storage password to continue.";
+next;
+input .@pw$;
+if(.@pw$ == #storagepw$) {
+mes .@n$;
+mes "Would you like to simply open your storage, set an account password for extra security, or remove your storage password (not recommended)?";
+next;
+menu "Open Storage",-,"Set Storage Password",L_stpass,"Remove Password",L_pwremove;
+close2;
+openstorage;
+end;
+} 
+else {
+mes .@n$;
+mes "The password you inserted does not match the password on record for this account. Please try again.";
+close;
+end;
+}
+}
+else {
+mes .@n$;
+mes "Would you like to simply open your storage, or set an account password for extra security?";
+next;
+menu "Open Storage",-,"Set Storage Password",L_stpass;
+
+close2;
+openstorage;
+end;
+}
+
+L_stpass:
+mes .@n$;
+mes "What would you like your password to be?";
+next;
+input .@temp1$;
+mes .@n$;
+mes "Please confirm that the password you entered is correct by re-typing it:";
+next;
+input .@temp2$;
+if(.@temp1$ == .@temp2$) {
+set #storagepw$,.@temp1$;
+set #storagepw,1;
+mes .@n$;
+mes "Your storage password has been set to: ^FF0000"+#storagepw$+"^000000";
+close;
+end;
+}
+else {
+mes .@n$;
+mes "The passwords you've input do not match. Please try again.";
+close;
+end;
+}
+
+L_pwremove:
+mes .@n$;
+mes "Your storage password has been removed.";
+set #storagepw,0;
+set #storagepw$,"null";
+close;
+end;
+
+L_save:
+if($saveanywhere == 0) { if(getmapflag(.@map$,mf_town) == 0) { 
+mes .@n$; 
+mes "The administrative team has chosen to restrict save point locations from being accessed outside of town maps. Please head to the nearest town to set your save point."; 
+close; end; 
+}}
+savepoint .@map$,.@x,.@y;
+mes .@n$;
+mes "Your save point has been updated to your current location: ^FF0000"+.@map$+", "+.@x+", "+.@y+"^000000.";
+close;
+end;
+
+L_last:
+if(lastx < 1) goto L_notsetup;
+warp	lastwarp$,	lastx,	lasty;	end;
+
+L_notsetup:
+mes .@n$;
+mes "You have to warp somewhere first!";
+close;
+end;
+
+
+L_rental:
+	mes "[Universal Rental Npc]";
+	mes "Here you can rent Carts, Falcons, Pecopecos and our Alice.";
+	mes "Alice can support you in Battle with her Buffs and costs 100.000z";
+	next;
+	switch(select("Cart:Falcon:Peco:Alice"))
+	{
+		case 1:
+			if( (BaseClass == Job_Merchant || BaseJob == Job_SuperNovice) && checkcart() == 0 && getskilllv("MC_PUSHCART") > 0 )
+			{
+				setcart;
+				close;
+			}
+			else
+			{
+				mes "[Universal Rental Npc]";
+				mes "Sorry " + strcharinfo(0) + ", Please make sure you are the required job and have the required skill.";
+				close;
+			}
+		case 2:
+			
+			if( BaseJob != Job_Archer && BaseClass == Job_Archer && checkfalcon() == 0 && getskilllv("HT_FALCON") > 0 )
+			{
+				setfalcon;
+				close;
+			}
+			else
+			{
+				mes "[Universal Rental Npc]";
+				mes "Sorry " + strcharinfo(0) + ", Please make sure you are the required job and have the required skill.";
+				close;
+			}					
+		case 3:
+			if( BaseJob != Job_Swordman && BaseClass == Job_Swordman && checkmount() == 0 && getskilllv("KN_RIDING") > 0 )
+			{
+				atcommand "@mount";
+				close;
+			}
+			else
+			{
+				mes "[Universal Rental Npc]";
+				mes "Sorry " + strcharinfo(0) + ", Please make sure you are the required job and have the required skill.";
+				close;
+			}
+		case 4:
+			if ( Zeny < 100000 ) goto L_nozeny;
+				set Zeny, Zeny-100000;
+				getitem 12278,1;
+				close;
+	}
+
+
+L_process:
+set lastwarp$,getarg(0);
+set lastx,getarg(1);
+set lasty,getarg(2);
+set lastwarpname$,getarg(3);
+warp getarg(0),getarg(1),getarg(2);
+end;
+
+L_nozeny:
+	next;
+	mes "Sry you don't have enough zeny to warp!";
+	close;
+}
+
+// Account Options NPC
+-	script	accountoptions	-1,{
+	OnPCLoginEvent:
+	getmapxy (.@mapname$, .@x, .@y, 0);
+	if (#set_main == 1) { atcommand "@main on"; }
+	if (#set_ks == 1) { atcommand "@noks"; }
+	if (#set_uptime == 1) { atcommand "@uptime"; }
+	if (#set_showdelay == 1) { atcommand "@showdelay"; }
+	if (#set_showexp == 1) { atcommand "@showexp"; }
+	if (#set_showzeny == 1) { atcommand "@showzeny"; }
+	if (#set_autoloot > 0) { atcommand "@autoloot "+#set_autoloot; }
+	if (#set_mail == 1 && .@mapname$ == "prontera") { openmail; }
+	end;
+}
+
+// Town Locations
+alberta,28,238,5	duplicate(allinone)	Kafra Services#1	117
+alberta,113,60,6	duplicate(allinone)	Kafra Services#2	117
+aldeba_in,96,181,4	duplicate(allinone)	Kafra Services#3	117
+aldebaran,143,119,4	duplicate(allinone)	Kafra Services#4	117
+comodo,195,150,4	duplicate(allinone)	Kafra Services#5	117
+cmd_fild07,136,134,4	duplicate(allinone)	Kafra Services#6	117
+geffen,120,62,0	duplicate(allinone)	Kafra Services#7	117
+geffen,203,123,2	duplicate(allinone)	Kafra Services#8	117
+izlude,134,125,3	duplicate(allinone)	Kafra Services#9	117
+morocc,156,97,4	duplicate(allinone)	Kafra Services#10	117
+morocc,160,258,4	duplicate(allinone)	Kafra Services#11	117
+moscovia,223,193,4	duplicate(allinone)	Kafra Services#12	117
+amatsu,102,149,4	duplicate(allinone)	Kafra Services#13	117
+ayothaya,212,169,5	duplicate(allinone)	Kafra Services#14	117
+einbech,181,132,5	duplicate(allinone)	Kafra Services#15	117
+einbroch,242,205,5	duplicate(allinone)	Kafra Services#16	117
+einbroch,59,203,6	duplicate(allinone)	Kafra Services#17	117
+gonryun,159,122,4	duplicate(allinone)	Kafra Services#18	117
+hugel,94,145,4	duplicate(allinone)	Kafra Services#56	117
+lighthalzen,164,100,4	duplicate(allinone)	Kafra Services#19	117
+lighthalzen,191,320,4	duplicate(allinone)	Kafra Services#20	117
+lhz_in02,237,284,4	duplicate(allinone)	Kafra Services#21	117
+louyang,210,104,5	duplicate(allinone)	Kafra Services#22	117
+umbala,88,159,4	duplicate(allinone)	Kafra Services#23	117
+niflheim,202,180,3	duplicate(allinone)	Kafra Services#24	117
+payon,181,104,4	duplicate(allinone)	Kafra Services#25	117
+payon,175,226,4	duplicate(allinone)	Kafra Services#26	117
+pay_arche,55,123,0	duplicate(allinone)	Kafra Services#27	117
+prontera,152,326,3	duplicate(allinone)	Kafra Services#28	117
+prontera,151,29,0	duplicate(allinone)	Kafra Services#29	117
+prontera,29,207,6	duplicate(allinone)	Kafra Services#30	117
+prontera,282,200,2	duplicate(allinone)	Kafra Services#31	117
+prontera,161,192,6	duplicate(allinone)	Kafra Services#32	117
+yuno,152,187,4	duplicate(allinone)	Kafra Services#33	117
+yuno,327,108,4	duplicate(allinone)	Kafra Services#34	117
+yuno,277,221,4	duplicate(allinone)	Kafra Services#35	117
+rachel,114,141,5	duplicate(allinone)	Kafra Services#57	117
+xmas,142,138,3	duplicate(allinone)	Kafra Services#58	117
+veins,212,128,3	duplicate(allinone)	Kafra Services#59	117
+//Dungeon Location
+izlu2dun,106,58,8	duplicate(allinone)	Kafra Services#36	117
+prt_fild05,290,224,3	duplicate(allinone)	Kafra Services#37	117
+mjolnir_02,83,362,4	duplicate(allinone)	Kafra Services#38	117
+moc_ruins,59,157,5	duplicate(allinone)	Kafra Services#39	117
+gef_fild10,73,340,5	duplicate(allinone)	Kafra Services#40	117
+alb2trea,59,69,5	duplicate(allinone)	Kafra Services#41	117
+mid_camp,193,293,5	duplicate(allinone)	Kafra Services#42	117
+dicastes01,192,190,5	duplicate(allinone)	Kafra Services#43	117
+brasilis,195,94,5	duplicate(allinone)	Kafra Services#44	117
+splendide,180,116,5	duplicate(allinone)	Kafra Services#45	117
+manuk,268,142,5	duplicate(allinone)	Kafra Services#46	117

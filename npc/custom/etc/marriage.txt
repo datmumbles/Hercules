@@ -52,7 +52,7 @@ OnInit:
 // $@divorcee id of the partner, who has to accept the divorce and pay.
 
 //The Priest - official iRO sprite & in-dialog name (on-map name not confirmed)
-prt_church,100,128,4	script	Vomars	1_M_PASTOR,{
+prt_church,100,123,4	script	Vomars	1_M_PASTOR,{
 	set @name$,"Vomars";
 
 	function SF_wed_end;

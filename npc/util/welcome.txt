@@ -1,0 +1,18 @@
+moc_para01,34,22,3	script	Quest Information#nv1	833,{
+
+		mes "^0f12ab[Information]^000000";
+		mes "Hello " + strcharinfo(0) + " and welcome to";
+		mes "ElariaRO's Quest Group!";
+		mes "You can find various Headgear and EXP Quests here!";
+		next;
+		mes "^0f12ab[Information]^000000";
+		mes "The ElariaRO Team is about to expand this place and";
+		mes "add a lot more features in the future.";
+		mes "We are so excited to see what will change!";
+		next;
+		mes "^0f12ab[Information]^000000";
+		mes "Enjoy your stay!";
+		close;
+
+}
+

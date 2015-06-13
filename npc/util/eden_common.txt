@@ -212,7 +212,7 @@ moc_para01,27,35,5	script	Secretary Lime Evenor	4_F_EDEN_OFFICER,{
 		close;
 	}
 }
-prontera,139,226,5	duplicate(eto)	ElariaRO Quests #1	4_F_NOVICE
+prontera,140,227,5	duplicate(eto)	ElariaRO Quests #1	4_F_NOVICE
 moc_ruins,68,164,3	duplicate(eto)	ElariaRO Quests #2	4_F_NOVICE
 geffen,132,66,3	duplicate(eto)	ElariaRO Quests #3	4_F_NOVICE
 alberta,124,67,3	duplicate(eto)	ElariaRO Quests #4	4_F_NOVICE

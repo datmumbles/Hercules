@@ -1,0 +1,24 @@
+-	script	levelup	-1,{
+end;
+
+OnPCBaseLvUpEvent:
+
+
+if (LASTLVLUP == 0) { set LASTLVLUP,BaseLevel; }
+
+if ((LASTLVLUP < 99) && (BaseLevel == 99) && (Upper == 0)) {
+ announce "Server: "+strcharinfo(0)+" has reached level 99   Congratulations!",bc_blue;
+ logmes "LEVELUP: "+strcharinfo(0)+" Reached Level 99.";
+}
+
+if ((LASTLVLUP < 99) && (BaseLevel == 99) && (Upper == 1)) {
+  announce "Server: "+strcharinfo(0)+" has reached level 99 Rebirth   Congratulations!",bc_blue;
+  logmes "LEVELUP: "+strcharinfo(0)+" Reached Level 99.";
+}
+
+set LASTLVLUP,BaseLevel;
+percentheal 100,100;
+
+end;
+
+}

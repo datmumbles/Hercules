@@ -876,13 +876,6 @@ OnInit:
 	"1@eom","Damascene Ago",
 	"1@jtb","Nightmares of the Jitterbug",
 	"c_tower2_","Clock Tower, 2nd Floor",
-	"zephyr","HiraniRO Main Town",
-	"vip","HiraniRO Kitchen",
-	"moonhaven","Forest of The Elements",
-	"vip_lounge","HiraniRO VIP Lounge",
-	"1@thor","Temple of Fire",
-	"gold_mart","HiraniRO Vending Mall",
-	"c_tower3_","Clock Tower, 3nd Floor";
 
 	freeloop(1);
 	.size = getarraysize( .maps$ );

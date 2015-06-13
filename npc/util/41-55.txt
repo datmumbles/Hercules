@@ -324,21 +324,21 @@ OnInit:
 
 
 		//AddHunting("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Monster ID>,<Monster Amount>,...);
-		//AddHunting777("",26,40,0,0,0,base,job,id,my);
+		//AddHunting("",26,40,0,0,0,base,job,id,my);
 		//Add Hunting Ques Here
-		AddHunting777("Hunting Cruiser",41,55,0,0,15000,32800,12600,1248,16);
-		AddHunting777("Hunting Kukre",41,55,0,0,15000,28500,28500,1070,20);
-		AddHunting777("Hunting Orc Warrior",41,55,0,0,15000,16080,4600,1023,20);
-		AddHunting777("Hunting Vadon",41,55,0,0,15000,32025,20275,1066,30);
-		AddHunting777("Hunting Marse",41,55,0,0,15000,28500,28500,1144,20);
-		AddHunting777("Hunting Cornutus",41,55,0,0,15000,28400,16490,1067,20);
-		AddHunting777("Hunting Myst",41,55,0,0,15000,44128,20504,1151,16);
-		AddHunting777("Hunting Shellfish",41,55,0,0,15000,40990,24352,1074,30);
-		AddHunting777("Hunting Marine Sphere",41,55,0,0,15000,44688,28272,1142,16);
-		AddHunting777("Hunting Munak & Bongun",41,55,0,0,15000,40250,20600,1026,20,1188,20);
-		AddHunting777("Hunting Firelock Soldier",41,55,0,0,15000,40344,32024,1403,16);
-		AddHunting777("Hunting Zombies",41,55,0,0,15000,28535,16170,1153,20,1152,10);
-		AddHunting777("Hunting Skeleton Worker",41,55,0,0,15000,32970,16400,1169,20);
+		AddHunting("Hunting Cruiser",41,55,0,0,15000,32800,12600,1248,16);
+		AddHunting("Hunting Kukre",41,55,0,0,15000,28500,28500,1070,20);
+		AddHunting("Hunting Orc Warrior",41,55,0,0,15000,16080,4600,1023,20);
+		AddHunting("Hunting Vadon",41,55,0,0,15000,32025,20275,1066,30);
+		AddHunting("Hunting Marse",41,55,0,0,15000,28500,28500,1144,20);
+		AddHunting("Hunting Cornutus",41,55,0,0,15000,28400,16490,1067,20);
+		AddHunting("Hunting Myst",41,55,0,0,15000,44128,20504,1151,16);
+		AddHunting("Hunting Shellfish",41,55,0,0,15000,40990,24352,1074,30);
+		AddHunting("Hunting Marine Sphere",41,55,0,0,15000,44688,28272,1142,16);
+		AddHunting("Hunting Munak & Bongun",41,55,0,0,15000,40250,20600,1026,20,1188,20);
+		AddHunting("Hunting Firelock Soldier",41,55,0,0,15000,40344,32024,1403,16);
+		AddHunting("Hunting Zombies",41,55,0,0,15000,28535,16170,1153,20,1152,10);
+		AddHunting("Hunting Skeleton Worker",41,55,0,0,15000,32970,16400,1169,20);
 
 		end;
 	

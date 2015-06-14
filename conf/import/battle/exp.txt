@@ -22,7 +22,7 @@ multi_level_up: yes
 // % of the current exp bar. (Every 10 = 1.0%)
 // For example, set it to 500 and no matter how much exp the mob gives, 
 // it can never give you above half of your current exp bar.
-max_exp_gain_rate: 300
+max_exp_gain_rate: 3000
 
 // Method of calculating earned experience when defeating a monster:
 // 0 = uses damage given / total damage as damage ratio

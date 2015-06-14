@@ -725,7 +725,7 @@ OnInit:
 	"job3_war01","Test room for Warlock Job Change",
 	"job3_war02","Test room for Warlock Job Change",
 	"jupe_core2","The center of Juperos",
-	"moc_para01","HiraniRO Adventure Center",
+	"moc_para01","ElariaRO Adventure Center",
 	"brasilis","Brasilis",
 	"bra_in01","Inside Brasilis",
 	"bra_fild01","Brasilis Field",

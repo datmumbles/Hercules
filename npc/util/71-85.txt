@@ -272,7 +272,7 @@ OnNPCKillEvent:
 				for(set .@j, 0; .@j < $@partymembercount; .@j++){
 					if(isloggedin($@partymemberaid[.@j], $@partymembercid[.@j])){
 						if(attachrid($@partymemberaid[.@j])){
-							if(h_run==1 && getcharid(3) != .@killerid && .@currentquest$ == currentquest$ && HP > 0){
+							if(h_run==1 && getcharid(3) != .@killerid && .@currentquest$ == currentquest$ && Hp > 0){
 								getmapxy(.@map2$,.@x2,.@y2,0);
 								if(.@map1$ == .@map2$ && distance(.@x1,.@y1,.@x2,.@y2) < .party_range){
 									setd(currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount", getd(currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount")+1);

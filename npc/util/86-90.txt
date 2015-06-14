@@ -272,7 +272,7 @@ OnNPCKillEvent:
 				for(set .@j, 0; .@j < $@partymembercount; .@j++){
 					if(isloggedin($@partymemberaid[.@j], $@partymembercid[.@j])){
 						if(attachrid($@partymemberaid[.@j])){
-							if(h_run==1 && getcharid(3) != .@killerid && .@currentquest$ == currentquest$ && HP > 0){
+							if(h_run==1 && getcharid(3) != .@killerid && .@currentquest$ == currentquest$ && Hp > 0){
 								getmapxy(.@map2$,.@x2,.@y2,0);
 								if(.@map1$ == .@map2$ && distance(.@x1,.@y1,.@x2,.@y2) < .party_range){
 									setd(currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount", getd(currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount")+1);
@@ -338,7 +338,7 @@ OnInit:
 		AddHunting("Hunting Rafflesia",86,90,0,0,0,1229970,1229970,1162,50);
 		AddHunting("Hunting Pitman",86,90,0,0,0,567940,404980,1616,50);
 		AddHunting("Hunting Green Iguana",86,90,0,0,0,564000,483000,1687,50);
-		AddHunting("Hunting Seal",86,90,0,0,0,825900,409440,1317,50)
+		AddHunting("Hunting Seal",86,90,0,0,0,825900,409440,1317,50);
 		AddHunting("Hunting Sea Otter",86,90,0,0,0,562880,338520,1323,50);
 		AddHunting("Hunting Anolian",86,90,0,0,0,1275400,732200,1206,50);
 		AddHunting("Hunting Raydric",86,90,0,0,0,804600,407700,1163,50);

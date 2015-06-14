@@ -326,23 +326,23 @@ OnInit:
 		//AddHunting("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Monster ID>,<Monster Amount>,...);
 		//AddHunting("",26,40,0,0,0,base,job,id,my);
 		//Add Hunting Ques Here
-		AddHunting("Hunting Dragon Tail",86,90,0,0,0,407610,163590,1321,30);
-		AddHunting("Hunting Spring Rabbit",86,90,0,0,0,419460,202980,1322,30);
-		AddHunting("Hunting Pest",86,90,0,0,0,367170,202560,1256,30);
-		AddHunting("Hunting Bathory",86,90,0,0,0,365090,161020,1102,30);
-		AddHunting("Hunting Alarm",86,90,0,0,0,419610,229000,1193,30);
-		AddHunting("Hunting Baba Yaga",86,90,0,0,0,287490,287490,1882,30);
-		AddHunting("Hunting Cloud Hermit",86,90,0,0,0,289120,225940,1412,30);
-		AddHunting("Hunting Tengu",86,90,0,0,0,264140,206860,1405,20);
-		AddHunting("Hunting Ground Petit",86,90,0,0,0,280310,241020,1155,30);
-		AddHunting("Hunting Rafflesia",86,90,0,0,0,409990,409990,1162,30);
-		AddHunting("Hunting Pitman",86,90,0,0,0,283970,202490,1616,30);
-		AddHunting("Hunting Green Iguana",86,90,0,0,0,282000,241500,1687,30);
-		AddHunting("Hunting Seal",86,90,0,0,0,412950,204720,1317,30);
-		AddHunting("Hunting Sea Otter",86,90,0,0,0,281440,169260,1323,30);
-		AddHunting("Hunting Anolian",86,90,0,0,0,364400,209200,1206,16);
-		AddHunting("Hunting Raydric",86,90,0,0,0,402300,203850,1163,30);
-		AddHunting("Hunting Isis",86,90,0,0,0,411270,166500,1029,30);
+		AddHunting("Hunting Dragon Tail",86,90,0,0,0,815220,327180,1321,50);
+		AddHunting("Hunting Spring Rabbit",86,90,0,0,0,838920,405960,1322,50);
+		AddHunting("Hunting Pest",86,90,0,0,0,734340,405120,1256,50);
+		AddHunting("Hunting Bathory",86,90,0,0,0,730180,322040,1102,50);
+		AddHunting("Hunting Alarm",86,90,0,0,0,839220,458000,1193,50);
+		AddHunting("Hunting Baba Yaga",86,90,0,0,0,574980,574980,1882,50);
+		AddHunting("Hunting Cloud Hermit",86,90,0,0,0,578240,451880,1412,50);
+		AddHunting("Hunting Tengu",86,90,0,0,0,792420,620580,1405,50);
+		AddHunting("Hunting Ground Petit",86,90,0,0,0,840930,482040,1155,50);
+		AddHunting("Hunting Rafflesia",86,90,0,0,0,1229970,1229970,1162,50);
+		AddHunting("Hunting Pitman",86,90,0,0,0,567940,404980,1616,50);
+		AddHunting("Hunting Green Iguana",86,90,0,0,0,564000,483000,1687,50);
+		AddHunting("Hunting Seal",86,90,0,0,0,825900,409440,1317,50)
+		AddHunting("Hunting Sea Otter",86,90,0,0,0,562880,338520,1323,50);
+		AddHunting("Hunting Anolian",86,90,0,0,0,1275400,732200,1206,50);
+		AddHunting("Hunting Raydric",86,90,0,0,0,804600,407700,1163,50);
+		AddHunting("Hunting Isis",86,90,0,0,0,822540,333000,1029,50);
 
 
 		

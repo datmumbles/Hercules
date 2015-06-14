@@ -321,15 +321,15 @@ OnInit:
 	
 	//Add Hunting Quests here (You can add as many required mobs as you want)
 	//AddHunting("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Monster ID>,<Monster Amount>,...);
-		AddHunting("Hornet Hunting",11,25,0,0,5000,400,300,1004,10);
-		AddHunting("Condor Hunting",11,25,0,0,5000,240,100,1009,20);
-		AddHunting("Grasshopper's Leg",11,25,0,0,5000,800,640,1052,20);
-		AddHunting("Worm Tail Hunting",11,25,0,0,5000,2180,1600,1024,20);
-		AddHunting("Spore Hunting",11,25,0,0,5000,3660,6480,1014,30);
-		AddHunting("Pest Control",11,25,0,0,5000,320,160,1048,20);
-		AddHunting("Familiar Hunting",11,25,0,0,5000,1060,600,1005,15);
-		AddHunting("Zombie Hunting",11,25,0,0,5000,2000,1260,1015,20);
-		AddHunting("Skeleton Hunting",11,25,0,0,5000,720,560,1076,20);
+		AddHunting("Hornet Hunting",11,25,0,0,5000,2000,1500,1004,50);
+		AddHunting("Condor Hunting",11,25,0,0,5000,720,300,1009,50);
+		AddHunting("Grasshopper's Leg",11,25,0,0,5000,2400,1920,1052,50);
+		AddHunting("Worm Tail Hunting",11,25,0,0,5000,6540,4800,1024,50);
+		AddHunting("Spore Hunting",11,25,0,0,5000,7320,12960,1014,50);
+		AddHunting("Pest Control",11,25,0,0,5000,960,480,1048,50);
+		AddHunting("Familiar Hunting",11,25,0,0,5000,3710,2100,1005,50);
+		AddHunting("Zombie Hunting",11,25,0,0,5000,5000,3780,1015,50);
+		AddHunting("Skeleton Hunting",11,25,0,0,5000,2160,1680,1076,50);
 		end;
 	
 

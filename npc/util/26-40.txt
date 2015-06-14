@@ -319,27 +319,27 @@ OnInit:
 		//AddCollection("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Item ID>,<Item Amount>,...);
 		//AddCollection("",26,40,0,0,0,base,job,id,am);
 		//Add Collection Quests Here
-		AddCollection("Gather Bones",26,40,569,100,10000,16000,4000,932,10);
-		AddCollection("Gather Animal Skins",26,40,569,100,10000,16400,4400,919,5,948,10);
-		AddCollection("Gather Peelings",26,40,569,100,10000,24000,6000,955,20,910,20);
-		AddCollection("Gather Tails",26,40,569,150,10000,20000,3000,942,10,1026,10,945,10);
-		AddCollection("Gather Cookies",26,40,569,150,10000,28000,8000,538,5,539,1);
-		AddCollection("Gather Mustaches",26,40,569,150,10000,12000,3000,1017,5,1018,3);
+		AddCollection("Gather Bones",26,40,569,100,10000,80000,20000,932,50);
+		AddCollection("Gather Animal Skins",26,40,569,100,10000,82000,22000,919,25,948,50);
+		AddCollection("Gather Peelings",26,40,569,100,10000,72000,18000,955,50,910,50);
+		AddCollection("Gather Tails",26,40,569,150,10000,100000,15000,942,50,1026,50,945,50);
+		AddCollection("Gather Cookies",26,40,569,150,10000,140000,40000,538,50,539,50);
+		AddCollection("Gather Mustaches",26,40,569,150,10000,60000,15000,1017,50,1018,50);
 
 
 		//AddHunting("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Monster ID>,<Monster Amount>,...);
 		//AddHunting("",26,40,0,0,0,base,job,id,my);
 		//Add Hunting Ques Here
-		AddHunting("Hunting Peco Peco",26,40,0,0,10000,6280,2840,1019,20);
-		AddHunting("Hunting Poison Spore",26,40,0,0,10000,11080,4695,1077,30);
-		AddHunting("Hunting Smokie",26,40,0,0,10000,2640,1660,1056,10);
-		AddHunting("Hunting Elder Willow",26,40,0,0,10000,3230,2010,1033,10);
-		AddHunting("Hunting Coco",26,40,0,0,10000,2400,1480,1104,10);
-		AddHunting("Hunting Thara Frog",26,40,0,0,10000,4280,2680,1034,10);
-		AddHunting("Hunting Megalodon",26,40,0,0,10000,8600,4760,1064,20);
-		AddHunting("Hunting Skeleton's",26,40,0,0,10000,16275,8545,1016,5,1028,5);
-		AddHunting("Hunting Pirate Skeleton",26,40,0,0,10000,8330,4420,1071,20);
-		AddHunting("Hunting Stapo",26,40,0,0,10000,16980,12315,1784,30);
+		AddHunting("Hunting Peco Peco",26,40,0,0,10000,18840,8530,1019,50);
+		AddHunting("Hunting Poison Spore",26,40,0,0,10000,33240,9390,1077,50);
+		AddHunting("Hunting Smokie",26,40,0,0,10000,13200,8300,1056,50);
+		AddHunting("Hunting Elder Willow",26,40,0,0,10000,16150,10050,1033,50);
+		AddHunting("Hunting Coco",26,40,0,0,10000,12000,7400,1104,50);
+		AddHunting("Hunting Thara Frog",26,40,0,0,10000,21400,13400,1034,50);
+		AddHunting("Hunting Megalodon",26,40,0,0,10000,25800,14280,1064,50);
+		AddHunting("Hunting Skeleton's",26,40,0,0,10000,81375,42725,1016,50,1028,50);
+		AddHunting("Hunting Pirate Skeleton",26,40,0,0,10000,24990,13260,1071,50);
+		AddHunting("Hunting Stapo",26,40,0,0,10000,50940,36945,1784,50);
 		
 		end;
 	

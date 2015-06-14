@@ -44,7 +44,7 @@
 //
 // Script Interface For Event Prize NPC
 //
-prontera,167,198,3	script	Event Prize	58,{
+prontera,167,198,3	script	Event Prize	637,{
 
 // Script Config
 set @npc$,"^008000[ Event Prize ]^000000"; // NPC Name

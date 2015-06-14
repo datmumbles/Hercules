@@ -1,0 +1,157 @@
+/*=========================================================
+PvP: Warper
+by Mumbles
+===========================================================
+Description:
+Allows players to warp to a PvP arena. Displays current
+arena users in waitingroom display.
+===========================================================
+Compatibility:
+Optimised for Hercules emulators.
+===========================================================
+Changelog:
+v1.0 - First version.
+=========================================================*/
+
+-	script	pvp_warp	-1,{
+
+	/*-----------------------------------------------------
+	Function: updatepvp
+	-----------------------------------------------------*/
+	function updatepvp	{
+		delwaitingroom;
+		
+		// Count active users in all arenas
+		for (.@i = 1; .@i < getarraysize(.arena_data$); .@i += 4) {
+			.@count += getmapusers(.arena_data$[.@i]);
+		}
+		
+		waitingroom "PvP Arena ["+ .@count +"]", 0;	
+		return;
+	}
+	
+	
+	/*-----------------------------------------------------
+	Script
+	-----------------------------------------------------*/
+	updatepvp;
+	
+	mes .npc_name$;
+	mes "Hello there, mighty warrior!";
+	mes "Which arena would you like to test your strength in?";
+	next;
+	
+	// Build list of arena names
+	for (.@i = 0; .@i < getarraysize(.arena_data$); .@i += 4) {
+		.@arena_name$[.@j++] = .arena_data$[.@i];
+		.@mode$[.@k++] = .arena_data$[.@i] +" ["+ getmapusers(.arena_data$[.@i + 1]) +"]";
+	}
+	
+	// Select desired arena
+	menu implode(.@mode$, ":"), -;
+	mes .npc_name$;
+	.@key = @menu - 1;	// Hercules
+	//.@key = @menu - 2;		// rAmod
+	.@index = .@key * 4;
+	
+	// Determine map name
+	.@map_name$ = .arena_data$[.@index + 1];
+	
+	// Determine Base Level requirement
+	.@base_req = atoi(.arena_data$[.@index + 2]);
+	
+	// Determine room limit
+	.@room_limit = atoi(.arena_data$[.@index + 3]);
+	
+	// Check Base Level
+	if (BaseLevel < .@base_req) {
+		mes "I'm sorry, but you must be at least level "+ .@base_req +" to participate in this arena.";
+		close;
+		
+	// Check room occupancy
+	} else if (getmapusers(.@map_name$) >= .@room_limit && .@room_limit) {
+		mes "I'm sorry, but this arena is limited to "+ .@room_limit +" players at a time. Please come back later.";
+		close;
+		
+	// All prerequisites met; proceed to warp
+	} else {
+		mes "Off to "+ .@arena_name$[.@key] +" you go! Best of luck to you!";		// Hercules
+		//mes "Off to "+ .@arena_name$[.@key + 1] +" you go! Best of luck to you!";	// rAmod
+		close2;
+	}
+	
+	// Debug data
+	/*//message strcharinfo(0), "Data: "+ .@arena_name$[.@key + 1] +" "+.@map_name$ +" "+ .@base_req +" "+ .@room_limit;	// Hercules
+	message strcharinfo(0), "Data: "+ .@arena_name$[.@key + 1] +" "+.@map_name$ +" "+ .@base_req +" "+ .@room_limit;	// rAmod
+	message strcharinfo(0), "Key: "+ .@key;
+	message strcharinfo(0), "Index: "+ .@index;*/
+	
+	// Warp to random cell in destination arena
+	warp .@map_name$, 0, 0;
+	end;
+		
+		
+	// Update status when arena is entered, players logs out, or views warper
+	OnPCLoadMapEvent:
+		for (.@i = 1; .@i < getarraysize(.arena_data$); .@i += 4) {
+			if (strcharinfo(3) == .arena_data$[.@i]) {
+				OnPCLogoutEvent:
+				OnTouch:
+					updatepvp;
+			}
+		}
+		
+		end;
+		
+		
+	// Remove player from arena when they die and update status
+	OnPCDieEvent:
+		for (.@i = 1; .@i < getarraysize(.arena_data$); .@i += 4) {
+			if (strcharinfo(3) == .arena_data$[.@i] && killedrid == getcharid(3)) {
+				sleep2 3000;
+				warp "SavePoint", 0, 0;
+				updatepvp;
+			}
+		}
+			
+		end;
+		
+		
+	/*-----------------------------------------------------
+	Configuration
+	-----------------------------------------------------*/
+	OnInit:
+		.npc_name$ = "[^CC0000PvP Warper^000000]";
+		
+		// Arena Name, map_name, level requirement, max users (0 = no limit)
+		setarray .arena_data$[0],	"Free for All", "guild_vs3", 99, 0,
+									"Duel Arena", "guild_vs2", 99, 2;
+		
+		updatepvp;
+		end;
+
+}
+
+
+/*-----------------------------------------------------
+Mapflags
+-----------------------------------------------------*/
+// Free for All
+guild_vs3	mapflag	loadevent
+guild_vs3	mapflag	pvp
+guild_vs3	mapflag	pvp_noguild
+guild_vs3	mapflag	pvp_noparty
+
+// Duel Arena
+guild_vs2	mapflag	loadevent
+guild_vs2	mapflag	pvp
+guild_vs2	mapflag	pvp_noguild
+guild_vs2	mapflag	pvp_noparty
+
+
+/*-----------------------------------------------------
+Duplicates
+-----------------------------------------------------*/
+prontera,144,198,5	duplicate(pvp_warp)	PvP Warper#prt	4_M_FAIRYSOLDIER,14,14
+izlude,121,119,4	duplicate(pvp_warp)	PvP Warper#izl	4_M_FAIRYSOLDIER,14,14
+jawaii,218,213,5	duplicate(pvp_warp)	PvP Warper#jaw	4_M_FAIRYSOLDIER,14,14

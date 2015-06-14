@@ -1,0 +1,67 @@
+/*=========================================================
+PvP: Arena Guard
+by Mumbles
+===========================================================
+Description:
+Allows players to leave a PvP arena with a delay to prevent
+a quick escape while allowing players to leave without
+dying or relogging.
+===========================================================
+Compatibility:
+Optimised for Hercules emulators.
+===========================================================
+Changelog:
+v1.0 - First version.
+=========================================================*/
+
+-	script	pvp_leave	-1,{
+
+	/*-----------------------------------------------------
+	Script
+	-----------------------------------------------------*/
+	mes .name$;
+	mes "Would you like to leave?";
+	next;
+	
+	// Confirm leave
+	if(select("No, thanks:Yes, please") == 1) {
+		mes .name$;
+		mes "Come back if you change your mind!";
+		close;
+	}
+	
+	mes .name$;
+	mes "Alright then...off you go.";
+	close2;
+	
+	// Delayed warp
+	specialeffect2 EF_MAPPILLAR;
+	progressbar "FFFF00", .delay;
+	
+	// Warp player to savepoint
+	warp "SavePoint", 0, 0;
+	end;
+	
+	
+	/*-----------------------------------------------------
+	Configuration
+	-----------------------------------------------------*/
+	OnInit:
+		.name$ = "[^FF0000Arena Guard^000000]";
+		.delay = 10;	// Delay in seconds to leave
+		end;
+
+}
+
+
+/*-----------------------------------------------------
+Duplicates
+-----------------------------------------------------*/
+// Free for All
+guild_vs3,50,86,3	duplicate(pvp_leave)	Arena Guard#0	4_M_FAIRYSOLDIER	// North
+guild_vs3,86,49,3	duplicate(pvp_leave)	Arena Guard#1	4_M_FAIRYSOLDIER	// East
+guild_vs3,49,13,7	duplicate(pvp_leave)	Arena Guard#2	4_M_FAIRYSOLDIER	// South
+guild_vs3,13,50,5	duplicate(pvp_leave)	Arena Guard#3	4_M_FAIRYSOLDIER	// West
+
+// Duel Arena
+guild_vs2,54,70,3	duplicate(pvp_leave)	Arena Guard#4	4_M_FAIRYSOLDIER	// North

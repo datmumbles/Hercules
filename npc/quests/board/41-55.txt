@@ -326,19 +326,19 @@ OnInit:
 		//AddHunting("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Monster ID>,<Monster Amount>,...);
 		//AddHunting("",26,40,0,0,0,base,job,id,my);
 		//Add Hunting Ques Here
-		AddHunting("Hunting Cruiser",41,55,0,0,15000,131200,63000,1248,50);
-		AddHunting("Hunting Kukre",41,55,0,0,15000,85500,85500,1070,50);
-		AddHunting("Hunting Orc Warrior",41,55,0,0,15000,48240,13800,1023,50);
-		AddHunting("Hunting Vadon",41,55,0,0,15000,96075,60825,1066,50);
-		AddHunting("Hunting Marse",41,55,0,0,15000,85500,85500,1144,50);
-		AddHunting("Hunting Cornutus",41,55,0,0,15000,85200,49470,1067,50);
-		AddHunting("Hunting Myst",41,55,0,0,15000,176512,82016,1151,50);
-		AddHunting("Hunting Shellfish",41,55,0,0,15000,81980,48704,1074,50);
-		AddHunting("Hunting Marine Sphere",41,55,0,0,15000,178752,113088,1142,50);
-		AddHunting("Hunting Munak & Bongun",41,55,0,0,15000,120750,61800,1026,50,1188,50);
-		AddHunting("Hunting Firelock Soldier",41,55,0,0,15000,161376,128096,1403,50);
-		AddHunting("Hunting Zombies",41,55,0,0,15000,85605,48510,1153,50,1152,50);
-		AddHunting("Hunting Skeleton Worker",41,55,0,0,15000,98910,49200,1169,50);
+		AddHunting("Hunting Cruiser",41,55,0,0,0,65600,31500,1248,50);
+		AddHunting("Hunting Kukre",41,55,0,0,0,42750,42750,1070,50);
+		AddHunting("Hunting Orc Warrior",41,55,0,0,0,24120,6900,1023,50);
+		AddHunting("Hunting Vadon",41,55,0,0,0,48037,30412,1066,50);
+		AddHunting("Hunting Marse",41,55,0,0,0,42750,42750,1144,50);
+		AddHunting("Hunting Cornutus",41,55,0,0,0,42600,24735,1067,50);
+		AddHunting("Hunting Myst",41,55,0,0,0,88256,41008,1151,50);
+		AddHunting("Hunting Shellfish",41,55,0,0,0,40990,24352,1074,50);
+		AddHunting("Hunting Marine Sphere",41,55,0,0,0,89376,56544,1142,50);
+		AddHunting("Hunting Munak & Bongun",41,55,0,0,0,60375,30900,1026,50,1188,50);
+		AddHunting("Hunting Firelock Soldier",41,55,0,0,0,80688,64048,1403,50);
+		AddHunting("Hunting Zombies",41,55,0,0,0,42802,24255,1153,50,1152,50);
+		AddHunting("Hunting Skeleton Worker",41,55,0,0,0,24600,24600,1169,50);
 
 		end;
 	

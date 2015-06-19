@@ -326,28 +326,28 @@ OnInit:
 		//AddHunting("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Monster ID>,<Monster Amount>,...);
 		//AddHunting("",26,40,0,0,0,base,job,id,my);
 		//Add Hunting Ques Here
-		AddHunting("Hunting Requiem",71,85,0,0,0,280000,201450,1164,50);
-		AddHunting("Hunting Marduk",71,85,0,0,0,320950,223800,1140,50);
+		AddHunting("Hunting Requiem",71,85,0,0,0,140000,100725,1164,50);
+		AddHunting("Hunting Marduk",71,85,0,0,0,160475,111900,1140,50);
 		AddHunting("Hunting Pasana",71,85,0,0,0,402175,203375,1154,50);
-		AddHunting("Hunting Dark Frame",71,85,0,0,0,361300,311775,1260,50);
-		AddHunting("Hunting Skeleton Prisoner",71,85,0,0,0,241650,144050,1196,50);
-		AddHunting("Hunting Zombie Prisoner",71,85,0,0,0,160875,163100,1197,50);
-		AddHunting("Hunting Raydric Archer",71,85,0,0,0,300625,203125,1276,50);
-		AddHunting("Hunting Khatzilburg",71,85,0,0,0,414450,233750,1132,50);
-		AddHunting("Hunting Grand Peco",71,85,0,0,0,260610,139830,1369,50);
-		AddHunting("Hunting Sleeper",71,85,0,0,0,426090,247320,1386,50);
-		AddHunting("Hunting Goat",71,85,0,0,0,379710,240450,1372,50);
-		AddHunting("Hunting Harpy",71,85,0,0,0,421860,246990,1376,50);
-		AddHunting("Hunting Clock",71,85,0,0,0,364980,301812,1269,50);
-		AddHunting("Hunting Punk",71,85,0,0,0,226072,140924,1199,50);
-		AddHunting("Hunting Rideword",71,85,0,0,0,217196,310968,1195,50);
-		AddHunting("Hunting Miyabi Doll",71,85,0,0,0,288260,212184,1404,50);
-		AddHunting("Hunting Mi Gao",71,85,0,0,0,294280,220080,1550,50);
-		AddHunting("Hunting Enchanted Peach Tree",71,85,0,0,0,293712,125970,1410,50);
-		AddHunting("Hunting Bloody Butterfly",71,85,0,0,0,245570,172860,1408,50);
-		AddHunting("Hunting Marionette",71,85,0,0,0,212340,240280,1143,50);
-		AddHunting("Hunting Hunter Fly",71,85,0,0,0,169510,96560,1035,50);
-		AddHunting("Hunting Merman",71,85,0,0,0,284000,176000,1264,50);
+		AddHunting("Hunting Dark Frame",71,85,0,0,0,180650,101687,1260,50);
+		AddHunting("Hunting Skeleton Prisoner",71,85,0,0,0,120825,72025,1196,50);
+		AddHunting("Hunting Zombie Prisoner",71,85,0,0,0,80437,5,81550,1197,50);
+		AddHunting("Hunting Raydric Archer",71,85,0,0,0,150312,101562,1276,50);
+		AddHunting("Hunting Khatzilburg",71,85,0,0,0,207225,116875,1132,50);
+		AddHunting("Hunting Grand Peco",71,85,0,0,0,130305,69915,1369,50);
+		AddHunting("Hunting Sleeper",71,85,0,0,0,213045,123660,1386,50);
+		AddHunting("Hunting Goat",71,85,0,0,0,189855,120225,1372,50);
+		AddHunting("Hunting Harpy",71,85,0,0,0,210930,123495,1376,50);
+		AddHunting("Hunting Clock",71,85,0,0,0,182490,150906,1269,50);
+		AddHunting("Hunting Punk",71,85,0,0,0,113036,70462,1199,50);
+		AddHunting("Hunting Rideword",71,85,0,0,0,108598,155484,1195,50);
+		AddHunting("Hunting Miyabi Doll",71,85,0,0,0,144130,106092,1404,50);
+		AddHunting("Hunting Mi Gao",71,85,0,0,0,147140,110040,1550,50);
+		AddHunting("Hunting Enchanted Peach Tree",71,85,0,0,0,146856,62985,1410,50);
+		AddHunting("Hunting Bloody Butterfly",71,85,0,0,0,122785,86430,1408,50);
+		AddHunting("Hunting Marionette",71,85,0,0,0,106170,120140,1143,50);
+		AddHunting("Hunting Hunter Fly",71,85,0,0,0,84755,48280,1035,50);
+		AddHunting("Hunting Merman",71,85,0,0,0,142000,88000,1264,50);
 
 		
 

@@ -326,24 +326,24 @@ OnInit:
 		//AddHunting("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Monster ID>,<Monster Amount>,...);
 		//AddHunting("",26,40,0,0,0,base,job,id,my);
 		//Add Hunting Ques Here
-		AddHunting("Hunting Solidier",91,99,0,0,0,867480,417060,1316,50);
-		AddHunting("Hunting Heater",91,99,0,0,0,867480,417060,1318,50);
-		AddHunting("Hunting Freezer",91,99,0,0,0,867480,417060,1319,50);
-		AddHunting("Hunting Injustice",91,99,0,0,0,807080,449280,1257,50);
-		AddHunting("Hunting Rybio",91,99,0,0,0,1403752,722120,1201,50);
-		AddHunting("Hunting Roween",91,99,0,0,0,820140,451960,1782,50);
-		AddHunting("Hunting Siroma",91,99,0,0,0,819800,400300,1776,50);
-		AddHunting("Hunting Evil Nymph",91,99,0,0,0,836700,495940,1416,50);
-		AddHunting("Hunting Civil Servant",91,99,0,0,0,841380,525000,1513,50);
-		AddHunting("Hunting Deviruchi",91,99,0,0,0,839720,833360,1109,50);
-		AddHunting("Hunting Mineral",91,99,0,0,0,813780,406080,1614,50);
-		AddHunting("Hunting Kaho",91,99,0,0,0,839400,407000,1072,50);
-		AddHunting("Hunting Medusa",91,99,0,0,0,1435056,801584,1148,50);
-		AddHunting("Hunting Loli Ruri",91,99,0,0,0,1421896,801584,1505,50);
-		AddHunting("Hunting Strouf",91,99,0,0,0,564800,450780,1065,50);
-		AddHunting("Hunting Cramp",91,99,0,0,0,818000,450780,1209,50);
-		AddHunting("Hunting Baphomet Jr.",91,99,0,0,0,802360,408800,1101,50);
-		AddHunting("Hunting Wooden Golem",91,99,0,0,0,835560,481180,1497,50);
+		AddHunting("Hunting Solidier",91,99,0,0,0,433740,208530,1316,50);
+		AddHunting("Hunting Heater",91,99,0,0,0,433740,208530,1318,50);
+		AddHunting("Hunting Freezer",91,99,0,0,0,433740,208530,1319,50);
+		AddHunting("Hunting Injustice",91,99,0,0,0,403540,224640,1257,50);
+		AddHunting("Hunting Rybio",91,99,0,0,0,701876,361060,1201,50);
+		AddHunting("Hunting Roween",91,99,0,0,0,410070,225980,1782,50);
+		AddHunting("Hunting Siroma",91,99,0,0,0,409900,200150,1776,50);
+		AddHunting("Hunting Evil Nymph",91,99,0,0,0,418350,247970,1416,50);
+		AddHunting("Hunting Civil Servant",91,99,0,0,0,420690,262500,1513,50);
+		AddHunting("Hunting Deviruchi",91,99,0,0,0,419860,416680,1109,50);
+		AddHunting("Hunting Mineral",91,99,0,0,0,406890,203040,1614,50);
+		AddHunting("Hunting Kaho",91,99,0,0,0,419700,203500,1072,50);
+		AddHunting("Hunting Medusa",91,99,0,0,0,717528,400792,1148,50);
+		AddHunting("Hunting Loli Ruri",91,99,0,0,0,710948,400792,1505,50);
+		AddHunting("Hunting Strouf",91,99,0,0,0,282400,225390,1065,50);
+		AddHunting("Hunting Cramp",91,99,0,0,0,409000,225390,1209,50);
+		AddHunting("Hunting Baphomet Jr.",91,99,0,0,0,401180,204400,1101,50);
+		AddHunting("Hunting Wooden Golem",91,99,0,0,0,417780,240590,1497,50);
 
 
 

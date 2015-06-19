@@ -319,10 +319,10 @@ OnInit:
 		//AddCollection("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Item ID>,<Item Amount>,...);
 		//AddCollection("",26,40,0,0,0,base,job,id,am);
 		//Add Collection Quests Here
-		AddCollection("Gather Sand",56,70,0,0,20000,218100,133020,7043,20,1056,50);
-		AddCollection("Gather Blossom",56,70,0,0,20000,68140,56520,1032,40);
-		AddCollection("Gather Trunk & Horn",56,70,0,0,20000,218475,122385,1019,50,1021,30);
-		AddCollection("Gather Leaf",56,70,0,0,20000,84960,108060,7198,40);
+		AddCollection("Gather Sand",56,70,0,0,0,109050,66510,7043,20,1056,50);
+		AddCollection("Gather Blossom",56,70,0,0,0,34070,28260,1032,40);
+		AddCollection("Gather Trunk & Horn",56,70,0,0,0,109237,61192,1019,50,1021,30);
+		AddCollection("Gather Leaf",56,70,0,0,0,42480,54030,7198,40);
 
 
 
@@ -331,16 +331,16 @@ OnInit:
 		//AddHunting("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Monster ID>,<Monster Amount>,...);
 		//AddHunting("",26,40,0,0,0,base,job,id,my);
 		//Add Hunting Ques Here
-		AddHunting("Hunting Alligator",56,70,0,0,20000,161370,97980,1271,50);
-		AddHunting("Hunting Savage",56,70,0,0,20000,89630,41440,1166,50);
-		AddHunting("Hunting Sohee",56,70,0,0,20000,88170,49650,1170,50);
-		AddHunting("Hunting Wraith",56,70,0,0,20000,254970,122970,1192,50);
-		AddHunting("Hunting Hyegun",56,70,0,0,20000,254970,120660,1512,50);
-		AddHunting("Hunting Druid & Ghoul",56,70,0,0,20000,193980,110622,1117,20,1036,50);
-		AddHunting("Hunting Phen",56,70,0,0,20000,157710,84780,1158,50);
-		AddHunting("Hunting Nightmare",56,70,0,0,20000,228360,228360,1061,50);
-		AddHunting("Hunting Myst Case",56,70,0,0,20000,132390,134640,1249,50);
-		AddHunting("Hunting Argiope",56,70,0,0,20000,206910,97470,1099,50);
+		AddHunting("Hunting Alligator",56,70,0,0,0,80685,48990,1271,50);
+		AddHunting("Hunting Savage",56,70,0,0,0,44815,20720,1166,50);
+		AddHunting("Hunting Sohee",56,70,0,0,0,44085,24825,1170,50);
+		AddHunting("Hunting Wraith",56,70,0,0,0,127485,61485,1192,50);
+		AddHunting("Hunting Hyegun",56,70,0,0,0,127485,60330,1512,50);
+		AddHunting("Hunting Druid & Ghoul",56,70,0,0,0,96990,55311,1117,20,1036,50);
+		AddHunting("Hunting Phen",56,70,0,0,0,78855,42390,1158,50);
+		AddHunting("Hunting Nightmare",56,70,0,0,0,114180,114180,1061,50);
+		AddHunting("Hunting Myst Case",56,70,0,0,0,66195,67320,1249,50);
+		AddHunting("Hunting Argiope",56,70,0,0,0,103455,48735,1099,50);
 
 
 

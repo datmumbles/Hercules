@@ -18,7 +18,7 @@
 // 1.5.4 Added repeatable Quests
 // 1.6.4 Added party support
 //============================================================
-moc_para01,36,38,3	script	Mission [11 - 25]#Tuto	4_BOARD3,{
+moc_para01,42,33,3	script	Hornet Guy#hornet	4_BOARD3,{
 
 	if(c_run==1){
 		mes "[^FF7700Questboard^000000]";

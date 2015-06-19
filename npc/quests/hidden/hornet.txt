@@ -84,73 +84,13 @@ pay_fild08,41,83,3	script	Grandma Tori#hornet	760,{
 	mes "You are destined to help me with my Spore problem!";	
 	next;
 	mes "[^FF7700Grandma Tori^000000]";	
+	mes "I love the little spores they drop and they are very useful for medicines too!";
 	mes "If you are willing and able to kill ^FF770050 Spores^000000 I will reward you with some EXP and Zeny.";
 	next;
-	
-	switch(select((.collection)?"Collection Quests":"",
-				  (.hunting)?"Hunting Quests":"",
-				  "Exit")) {
-
-case 1:
-	set .@collectmenu$, "";
-	for( set .@i,0; .@i < .collectionquestcount; set .@i,.@i+1){
-		if (.@i) set .@collectmenu$,.@collectmenu$+":";
-		set .@collectmenu$, .@collectmenu$ + "[" + getd("." +(.@i+1)+"_collectionmin") + " - " + getd("." +(.@i+1)+"_collectionmax") + "] " + getd("." + (.@i+1) + "_collectionname$");
-	}
-	set .@selection,select(.@collectmenu$);
-	if(.quest_repeat == 1){
-		if(gettimetick(2) < getd(.@selection + "_collection_delay")){
-			set .@time_left, getd(.@selection + "_collection_delay")-gettimetick(2);
-			mes "[^FF7700Grandma Tori^000000]";
-			if(.@time_left < 60) mes "You have to wait ^0000FF"+.@time_left+" seconds^000000 to do this quest again.";
-			if(.@time_left < 3600) mes "You have to wait ^0000FF"+.@time_left/60+" minutes^000000 to do this quest again.";
-			mes "You have to wait ^0000FF"+.@time_left/60/60+" hours^000000 to do this quest again.";
-			close;
-		}
-	}
-	else{
-		if(getd(.@selection + "_collection_repeat") == 1){
-			mes "[^FF7700Grandma Tori^000000]";
-			mes "You already did this quest.";
-			mes "Please choose another one.";
-			close;
-		}
-	}
-		mes "[^FF7700Grandma Tori^000000]";
-	mes "^0000FF"+getd("." + .@selection + "_collectionname$")+"^000000";
-	mes "--------------------------------";
-	for( set .@j, 0; .@j < getarraysize(getd("."+ .@selection + "_collectionitem")); set .@j,.@j+2){
-		mes "^FF0000"+getitemname(getd("."+.@selection+"_collectionitem["+.@j+"]"))+" - "+getd("."+.@selection+"_collectionitem["+(.@j+1)+"]")+" ea.^000000";
-	}
-	mes "--------------------------------";
-	mes "[Reward]";
-	mes "Item: ^0000FF"+((getd("." +.@selection+"_collectionprize"))?getitemname(getd("." +.@selection+"_collectionprize"))+" - "+getd("." +.@selection+"_collectionamount")+" ea.^000000":"Nothing^000000");
-	mes "Zeny: ^0000FF"+getd("." +.@selection+"_collectionzeny")+"^000000";
-	mes "Base EXP: ^0000FF"+getd("." +.@selection+"_collectionexp["+0+"]")+"^000000";
-	mes "Job EXP: ^0000FF"+getd("." +.@selection+"_collectionexp["+1+"]")+"^000000";
-	next;
-	if(select("Accept:Decline") == 2){
-		close;
-	}
-	if(BaseLevel >= getd("." +.@selection+"_collectionmin") && BaseLevel <= getd("." +.@selection+"_collectionmax")){
-		mes "[^FF7700Grandma Tori^000000]";
-		mes "Quest accepted.";
-		set c_run, 1;
-		set currentquest$, .@selection;
-		close;
-	}
-	else{
-		mes "[^FF7700Grandma Tori^000000]";
-		mes "You don't have the required";
-		mes "level to do this quest.";
-		close;
-	}
-	
-case 2:
 	set .@huntmenu$, "";
 	for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
 		if (.@i) set .@huntmenu$,.@huntmenu$+":";
-		set .@huntmenu$, .@huntmenu$ + "[" + getd("." +(.@i+1)+"_huntingmin") + " - " + getd("." +(.@i+1)+"_huntingmax") + "] " + getd("." + (.@i+1) + "_huntingname$");
+		set .@huntmenu$, .@huntmenu$ + getd("." + (.@i+1) + "_huntingname$");
 	}
 	set .@selection,select(.@huntmenu$);
 	if(.quest_repeat == 1){
@@ -199,10 +139,6 @@ case 2:
 		mes "You don't have the required";
 		mes "level to do this quest.";
 		close;
-	}
-	
-case 3:
-	close;
 	}
 	
 L_checkitems:
@@ -331,7 +267,7 @@ OnInit:
 	
 	//Add Hunting Quests here (You can add as many required mobs as you want)
 	//AddHunting("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Monster ID>,<Monster Amount>,...);
-		AddHunting("Hornet Hunting",11,25,0,0,5000,1000,750,1004,50);
+		AddHunting("Hornet Hunting",0,0,5000,1000,750,1004,50);
 		end;
 	
 
@@ -360,8 +296,6 @@ function AddCollection{
 function AddHunting{
 	set .huntingquestcount,.huntingquestcount+1;
 	setd ("." +.huntingquestcount+"_huntingname$", getarg(0));
-	setd ("." +.huntingquestcount+"_huntingmin", getarg(1));
-	setd ("." +.huntingquestcount+"_huntingmax", getarg(2));
 	setd ("." +.huntingquestcount+"_huntingprize", getarg(3));
 	setd ("." +.huntingquestcount+"_huntingamount", getarg(4));
 	setd ("." +.huntingquestcount+"_huntingzeny", getarg(5));

@@ -18,10 +18,10 @@
 // 1.5.4 Added repeatable Quests
 // 1.6.4 Added party support
 //============================================================
-moc_para01,42,33,3	script	Hornet Guy#hornet	4_BOARD3,{
+pay_fild08,41,83,3	script	Grandma Tori#hornet	760,{
 
 	if(c_run==1){
-		mes "[^FF7700Questboard^000000]";
+		mes "[^FF7700Grandma Tori^000000]";
 		mes "^0000FF"+getd("." + currentquest$ + "_collectionname$")+"^000000";
 		mes "--------------------------------";
 		for( set .@j, 0; .@j < getarraysize(getd("."+ currentquest$ + "_collectionitem")); set .@j,.@j+2){
@@ -35,7 +35,7 @@ moc_para01,42,33,3	script	Hornet Guy#hornet	4_BOARD3,{
 		mes "Job EXP: ^0000FF"+getd("." +currentquest$+"_collectionexp["+1+"]")+"^000000";
 		next;
 		if(select("Finish:Abort") == 2){
-			mes "[^FF7700Questboard^000000]";
+			mes "[^FF7700Grandma Tori^000000]";
 			mes "Quest aborted.";
 			set currentquest$, "";
 			set c_run, 0;
@@ -45,7 +45,7 @@ moc_para01,42,33,3	script	Hornet Guy#hornet	4_BOARD3,{
 	}
 	
 	if(h_run==1){
-		mes "[^FF7700Questboard^000000]";
+		mes "[^FF7700Grandma Tori^000000]";
 		mes "^0000FF"+getd("." + currentquest$ + "_huntingname$")+"^000000";
 		mes "--------------------------------";
 		for( set .@j, 0; .@j < getarraysize(getd("."+ currentquest$ + "_huntingmob")); set .@j,.@j+2){
@@ -60,7 +60,7 @@ moc_para01,42,33,3	script	Hornet Guy#hornet	4_BOARD3,{
 		mes "Job EXP: ^0000FF"+getd("." +currentquest$+"_huntingexp["+1+"]")+"^000000";
 		next;
 		if(select("Finish:Abort") == 2){
-			mes "[^FF7700Questboard^000000]";
+			mes "[^FF7700Grandma Tori^000000]";
 			mes "Quest aborted.";
 			for(set .@x, 1; .@x < getarraysize(getd("."+currentquest$+"_huntingmob")); set .@x,.@x+2){
 				set .@currentmob, getd("."+currentquest$+"_huntingmob["+(.@x-1)+"]");
@@ -73,16 +73,18 @@ moc_para01,42,33,3	script	Hornet Guy#hornet	4_BOARD3,{
 		goto L_checkmobs;
 	}
 
-	mes "[^FF7700Questboard^000000]";
-	mes "Select category:";
+	mes "[^FF7700Grandma Tori^000000]";
+	mes "Spores!~~";
+	mes "So many Spores on this map and I am to weak to blast them!";
+	mes "If only a strong and helpful person would hear me now~~";
 	next;
-	mes "testing purpose";
-	mes "testing purpose";
-	mes "testing purpose";	
+	mes "[^FF7700Grandma Tori^000000]";
+	mes "Oh hello, I-I didn't see you coming.";
+	mes "This must be faith! Yes-Yes!";
+	mes "You are destined to help me with my Spore problem!";	
 	next;
-	mes "testing purpose";
-	mes "testing purpose";
-	mes "testing purpose";	
+	mes "[^FF7700Grandma Tori^000000]";	
+	mes "If you are willing and able to kill ^FF770050 Spores^000000 I will reward you with some EXP and Zeny.";
 	next;
 	
 	switch(select((.collection)?"Collection Quests":"",
@@ -99,7 +101,7 @@ case 1:
 	if(.quest_repeat == 1){
 		if(gettimetick(2) < getd(.@selection + "_collection_delay")){
 			set .@time_left, getd(.@selection + "_collection_delay")-gettimetick(2);
-			mes "[^FF7700Questboard^000000]";
+			mes "[^FF7700Grandma Tori^000000]";
 			if(.@time_left < 60) mes "You have to wait ^0000FF"+.@time_left+" seconds^000000 to do this quest again.";
 			if(.@time_left < 3600) mes "You have to wait ^0000FF"+.@time_left/60+" minutes^000000 to do this quest again.";
 			mes "You have to wait ^0000FF"+.@time_left/60/60+" hours^000000 to do this quest again.";
@@ -108,13 +110,13 @@ case 1:
 	}
 	else{
 		if(getd(.@selection + "_collection_repeat") == 1){
-			mes "[^FF7700Questboard^000000]";
+			mes "[^FF7700Grandma Tori^000000]";
 			mes "You already did this quest.";
 			mes "Please choose another one.";
 			close;
 		}
 	}
-	mes "[^FF7700Questboard^000000]";
+		mes "[^FF7700Grandma Tori^000000]";
 	mes "^0000FF"+getd("." + .@selection + "_collectionname$")+"^000000";
 	mes "--------------------------------";
 	for( set .@j, 0; .@j < getarraysize(getd("."+ .@selection + "_collectionitem")); set .@j,.@j+2){
@@ -131,14 +133,14 @@ case 1:
 		close;
 	}
 	if(BaseLevel >= getd("." +.@selection+"_collectionmin") && BaseLevel <= getd("." +.@selection+"_collectionmax")){
-		mes "[^FF7700Questboard^000000]";
+		mes "[^FF7700Grandma Tori^000000]";
 		mes "Quest accepted.";
 		set c_run, 1;
 		set currentquest$, .@selection;
 		close;
 	}
 	else{
-		mes "[^FF7700Questboard^000000]";
+		mes "[^FF7700Grandma Tori^000000]";
 		mes "You don't have the required";
 		mes "level to do this quest.";
 		close;
@@ -154,7 +156,7 @@ case 2:
 	if(.quest_repeat == 1){
 		if(gettimetick(2) < getd(.@selection + "_hunting_delay")){
 			set .@time_left, getd(.@selection + "_hunting_delay")-gettimetick(2);
-			mes "[^FF7700Questboard^000000]";
+			mes "[^FF7700Grandma Tori^000000]";
 			if(.@time_left < 60) mes "You have to wait ^0000FF"+.@time_left+" seconds^000000 to do this quest again.";
 			if(.@time_left < 3600) mes "You have to wait ^0000FF"+.@time_left/60+" minutes^000000 to do this quest again.";
 			mes "You have to wait ^0000FF"+.@time_left/60/60+" hours^000000 to do this quest again.";
@@ -163,13 +165,13 @@ case 2:
 	}
 	else{
 		if(getd(.@selection + "_hunting_repeat") == 1){
-			mes "[^FF7700Questboard^000000]";
+			mes "[^FF7700Grandma Tori^000000]";
 			mes "You already did this quest.";
 			mes "Please choose another one.";
 			close;
 		}
 	}
-	mes "[^FF7700Questboard^000000]";
+		mes "[^FF7700Grandma Tori^000000]";
 	mes "^0000FF"+getd("." + .@selection + "_huntingname$")+"^000000";
 	mes "--------------------------------";
 	for( set .@j, 0; .@j < getarraysize(getd("."+ .@selection + "_huntingmob")); set .@j,.@j+2){
@@ -186,14 +188,14 @@ case 2:
 		close;
 	}
 	if(BaseLevel >= getd("." +.@selection+"_huntingmin") && BaseLevel <= getd("." +.@selection+"_huntingmax")){
-		mes "[^FF7700Questboard^000000]";
+		mes "[^FF7700Grandma Tori^000000]";
 		mes "Quest accepted.";
 		set h_run, 1;
 		set currentquest$, .@selection;
 		close;
 	}
 	else{
-		mes "[^FF7700Questboard^000000]";
+		mes "[^FF7700Grandma Tori^000000]";
 		mes "You don't have the required";
 		mes "level to do this quest.";
 		close;
@@ -210,14 +212,14 @@ L_checkitems:
 		}
 	}
 	if(.@checkitem<getarraysize(getd("."+currentquest$+"_collectionitem"))){
-		mes "[^FF7700Questboard^000000]";
+		mes "[^FF7700Grandma Tori^000000]";
 		mes "You don't have everything.";
 		close;
 	}
 	for( set .@delcount,0; .@delcount < getarraysize(getd("."+currentquest$+"_collectionitem")); set .@delcount,.@delcount+2){
 		delitem getd("."+currentquest$+"_collectionitem["+.@delcount+"]"),getd("."+currentquest$+"_collectionitem["+(.@delcount+1)+"]");
 	}
-	mes "[^FF7700Questboard^000000]";
+		mes "[^FF7700Grandma Tori^000000]";
 	mes "Congratulation! Here is your Reward.";
 	if(getd("." +currentquest$+"_collectionprize")!=0) getitem(getd("." +currentquest$+"_collectionprize"),getd("." +currentquest$+"_collectionamount"));
 	set Zeny,Zeny+getd("." +currentquest$+"_collectionzeny");
@@ -244,11 +246,11 @@ L_checkmobs:
 	
 L_checkmobs2:
 	if(.@checkmonster<.@goal){
-		mes "[^FF7700Questboard^000000]";
+		mes "[^FF7700Grandma Tori^000000]";
 		mes "You didn't kill everything.";
 		close;
 	}
-	mes "[^FF7700Questboard^000000]";
+		mes "[^FF7700Grandma Tori^000000]";
 	mes "Congratulation! Here is your Reward.";
 	for(set .@x, 1; .@x < getarraysize(getd("."+currentquest$+"_huntingmob")); set .@x,.@x+2){
 		set .@currentmob, getd("."+currentquest$+"_huntingmob["+(.@x-1)+"]");
@@ -303,7 +305,7 @@ OnInit:
 	function AddHunting;
 
 	//Activate/Deactivate quest categories (1 - activated, 0 - deactivated)
-	set .collection, 1;
+	set .collection, 0;
 	set .hunting, 1;
 	
 	//Quest Delay (seconds)
@@ -311,7 +313,7 @@ OnInit:
 	set .quest_delay, 0;
 	
 	//Activate/Deactivate repeatable quests (1 - activated, 0 - deactivated)
-	set .quest_repeat, 1;
+	set .quest_repeat, 0;
 	
 	//Activate/Deactivate party support(1 - activated, 0 - deactivated)
 	set .party_support, 1;

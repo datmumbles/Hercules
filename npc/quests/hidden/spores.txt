@@ -80,7 +80,7 @@ pay_fild08,41,83,3	script	Grandma Tori#hornet	760,{
 	next;
 	mes "[^FF7700Grandma Tori^000000]";
 	mes "Would you be a dear, and help me - no, help the village clean up the forest?";
-	mes " I will share with you some of the fresh apples I picked last time, though I was not able to get many because of them.";
+	mes "I will reward you if you kill ^FF770050 Spores^000000!";
 	next;
 	set .@huntmenu$, "";
 	for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
@@ -262,7 +262,7 @@ OnInit:
 	
 	//Add Hunting Quests here (You can add as many required mobs as you want)
 	//AddHunting("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Monster ID>,<Monster Amount>,...);
-		AddHunting("Absolutely. I love apples!",11,25,0,0,5000,3660,6480,1014,50);
+		AddHunting("Skeleton Hunting",11,25,0,0,5000,1080,840,1076,50);
 		end;
 	
 

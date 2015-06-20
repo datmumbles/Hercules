@@ -138,13 +138,13 @@ Mapflags
 -----------------------------------------------------*/
 // Free for All
 guild_vs3	mapflag	loadevent
-guild_vs3	mapflag	pvp
+//guild_vs3	mapflag	pvp
 guild_vs3	mapflag	pvp_noguild
 guild_vs3	mapflag	pvp_noparty
 
 // Duel Arena
 guild_vs2	mapflag	loadevent
-guild_vs2	mapflag	pvp
+//guild_vs2	mapflag	pvp
 guild_vs2	mapflag	pvp_noguild
 guild_vs2	mapflag	pvp_noparty
 
@@ -154,4 +154,9 @@ Duplicates
 -----------------------------------------------------*/
 prontera,144,198,5	duplicate(pvp_warp)	PvP Warper#prt	4_M_FAIRYSOLDIER,14,14
 izlude,121,119,4	duplicate(pvp_warp)	PvP Warper#izl	4_M_FAIRYSOLDIER,14,14
-jawaii,218,213,5	duplicate(pvp_warp)	PvP Warper#jaw	4_M_FAIRYSOLDIER,14,14
+payon,178,108,5	duplicate(pvp_warp)	PvP Warper#pay	4_M_FAIRYSOLDIER,14,14
+morocc,159,97,6	duplicate(pvp_warp)	PvP Warper#mor	4_M_FAIRYSOLDIER,14,14
+geffen,136,62,3	duplicate(pvp_warp)	PvP Warper#gef	4_M_FAIRYSOLDIER,14,14
+rachel,111,140,3	duplicate(pvp_warp)	PvP Warper#rac	4_M_FAIRYSOLDIER,14,14
+veins,221,128,3	duplicate(pvp_warp)	PvP Warper#vei	4_M_FAIRYSOLDIER,14,14
+yuno,172,187,3	duplicate(pvp_warp)	PvP Warper#yun	4_M_FAIRYSOLDIER,14,14

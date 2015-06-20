@@ -240,7 +240,7 @@ gonryun,162,122,5	duplicate(eto)	ElariaRO Quests #25	4_F_NOVICE
 moscovia,209,197,5	duplicate(eto)	ElariaRO Quests #26	4_F_NOVICE
 brasilis,191,224,3	duplicate(eto)	ElariaRO Quests #27	4_F_NOVICE
 dewata,192,193,5	duplicate(eto)	ElariaRO Quests #28	4_F_NOVICE
-morocc,161,97,5	duplicate(eto)	ElariaRO Quests #29	4_F_NOVICE
+morocc,162,97,5	duplicate(eto)	ElariaRO Quests #29	4_F_NOVICE
 izlude,131,148,4	duplicate(eto)	ElariaRO Quests #30	4_F_NOVICE
 izlude_a,131,148,4	duplicate(eto)	ElariaRO Quests #30::eto_iz_a	4_F_NOVICE
 izlude_b,131,148,4	duplicate(eto)	ElariaRO Quests #30::eto_iz_b	4_F_NOVICE

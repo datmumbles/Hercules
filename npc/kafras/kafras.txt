@@ -24,7 +24,7 @@
 
 // Aldebaran
 //============================================================
-aldeba_in,96,181,4	script	Kafra Service	4_F_KAFRA5,{
+/*aldeba_in,96,181,4	script	Kafra Service	4_F_KAFRA5,{
 	cutin "kafra_05",2;
 	mes "[Kafra Leilah]";
 	mes "Hm...?";
@@ -108,7 +108,7 @@ aldeba_in,96,181,4	script	Kafra Service	4_F_KAFRA5,{
 	}
 	cutin "",255;
 	end;
-}
+}*/
 
 aldebaran,143,119,4	script	Kafra Employee::kaf_aldebaran	4_F_KAFRA5,{
 	cutin "kafra_05",2;

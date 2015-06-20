@@ -1164,3 +1164,4 @@ dicastes01,192,190,5	duplicate(allinone)	Kafra Services#43	117
 brasilis,195,94,5	duplicate(allinone)	Kafra Services#44	117
 splendide,180,116,5	duplicate(allinone)	Kafra Services#45	117
 manuk,268,142,5	duplicate(allinone)	Kafra Services#46	117
+prontera,146,89,6	duplicate(allinone)	Kafra Services#47	117

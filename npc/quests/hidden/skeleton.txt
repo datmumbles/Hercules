@@ -18,7 +18,7 @@
 // 1.5.4 Added repeatable Quests
 // 1.6.4 Added party support
 //============================================================
-pay_dun00,24,169,6	script	Ghostly Acolyte#ghost	1661,{
+pay_dun00,24,169,3	script	Ghostly Acolyte#ghost	1661,{
 
 	if(c_run==1){
 		mes "[^FF7700Ghostly Acolyte^000000]";
@@ -90,6 +90,7 @@ pay_dun00,24,169,6	script	Ghostly Acolyte#ghost	1661,{
 	mes "[^FF7700" + strcharinfo(0) + "^000000]";
 	mes "Sure! But how do I do it?";
 	next;
+	mes "[^FF7700Ghostly Acolyte^000000]";
 	mes "Well, this all happened a while ago. He is probably still in there wandering around with the other ^FF7700Skeletons^000000. I bet if you go in there and destroy the remains of ^FF770050^000000 of them, that should do the trick.";
 	next;
 	set .@huntmenu$, "";

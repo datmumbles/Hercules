@@ -95,7 +95,7 @@ izlu2dun,104,92,5	script	Bulletin Board#4	2_BULLETIN_BOARD,{
 	close;
 }
 
-payon,178,108,5	script	Bulletin Board#06	2_BULLETIN_BOARD,{
+payon,181,112,5	script	Bulletin Board#06	2_BULLETIN_BOARD,{
 	mes "[Payon: The Mountain City]";
 	mes "Welcome to Payon, the mountain city. Payon has recently been renovated, so we hope you enjoy the clean, nice streets and buildings.";
 	next;

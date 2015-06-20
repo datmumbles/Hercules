@@ -50,7 +50,7 @@ izlude,134,128,3	duplicate(GM Online List)	GM Online List#12	858
 lighthalzen,163,103,3	duplicate(GM Online List)	GM Online List#13	858
 louyang,213,109,3	duplicate(GM Online List)	GM Online List#14	858
 moscovia,220,191,3	duplicate(GM Online List)	GM Online List#15	858
-morocc,159,97,6	duplicate(GM Online List)	GM Online List#16	858
+morocc,147,101,6	duplicate(GM Online List)	GM Online List#16	858
 niflheim,205,180,3	duplicate(GM Online List)	GM Online List#17	858
 payon,177,228,3	duplicate(GM Online List)	GM Online List#18	858
 payon,183,103,6	duplicate(GM Online List)	GM Online List#19	858

@@ -74,18 +74,13 @@ pay_fild08,41,83,3	script	Grandma Tori#hornet	760,{
 	}
 
 	mes "[^FF7700Grandma Tori^000000]";
-	mes "Spores!~~";
-	mes "So many Spores on this map and I am to weak to blast them!";
-	mes "If only a strong and helpful person would hear me now~~";
+	mes "Oh dear. Oh dear, oh dear.";
+	mes "Those disgusting ^FF7700Spores^000000 are all over the forest again.";
+	mes "I went out to gather some fruit, and there they are. Terrible little pests bouncing all over and spreading their fungus on the nearby trees.";
 	next;
 	mes "[^FF7700Grandma Tori^000000]";
-	mes "Oh hello, I-I didn't see you coming.";
-	mes "This must be faith! Yes-Yes!";
-	mes "You are destined to help me with my Spore problem!";	
-	next;
-	mes "[^FF7700Grandma Tori^000000]";	
-	mes "I love the little spores they drop and they are very useful for medicines too!";
-	mes "If you are willing and able to kill ^FF770050 Spores^000000 I will reward you with some EXP and Zeny.";
+	mes "Would you be a dear, and help me - no, help the village clean up the forest?";
+	mes " I will share with you some of the fresh apples I picked last time, though I was not able to get many because of them.";
 	next;
 	set .@huntmenu$, "";
 	for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
@@ -267,7 +262,7 @@ OnInit:
 	
 	//Add Hunting Quests here (You can add as many required mobs as you want)
 	//AddHunting("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Monster ID>,<Monster Amount>,...);
-		AddHunting("Hornet Hunting",0,0,5000,1000,750,1004,50);
+		AddHunting("Spore Hunting",11,25,0,0,5000,3660,6480,1014,50);
 		end;
 	
 

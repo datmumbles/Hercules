@@ -77,14 +77,15 @@ pay_dun00,24,169,3	script	Ghostly Acolyte#ghost	1661,{
 	mes "Waaahh! For a second there, I thought I saw a gh- wait... you ARE a ghost!";
 	next;
 	mes "[^FF7700Ghostly Acolyte^000000]";
-	mes "Yes, unfortunately I have perished. My brother and I went into the cave to train, but we were not strong enough. We were overrun by *Skeletons*. All I could do was watch as he was torn apart.";
+	mes "Yes, unfortunately I have perished. My brother and I went into the cave to train, but we were not strong enough. We were overrun by Skeletons. All I could do was watch as he was torn apart.";
 	next;
 	mes "[^FF7700" + strcharinfo(0) + "^000000]";
 	mes "That's terrible. Why isn't he here with you?";
-	mes "I will reward you if you kill ^FF770050 Spores^000000!";
 	next;
 	mes "[^FF7700Ghostly Acolyte^000000]";
 	mes "That's because he is still in there. He rose from the dead, and became a skeleton himself. It was horrifying to watch. I wish I could go back in and put his soul to rest.";
+	next;
+	mes "[^FF7700Ghostly Acolyte^000000]";
 	mes "Say, would you be willing to help me out?";
 	next;
 	mes "[^FF7700" + strcharinfo(0) + "^000000]";

@@ -138,13 +138,13 @@ Mapflags
 -----------------------------------------------------*/
 // Free for All
 guild_vs3	mapflag	loadevent
-//guild_vs3	mapflag	pvp
+guild_vs3	mapflag	pvp
 guild_vs3	mapflag	pvp_noguild
 guild_vs3	mapflag	pvp_noparty
 
 // Duel Arena
 guild_vs2	mapflag	loadevent
-//guild_vs2	mapflag	pvp
+guild_vs2	mapflag	pvp
 guild_vs2	mapflag	pvp_noguild
 guild_vs2	mapflag	pvp_noparty
 

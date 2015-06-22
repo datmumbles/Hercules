@@ -1,0 +1,49 @@
+/*=========================================================
+Server Rate System
+by Mumbles
+===========================================================
+Description:
+Adjusts server rates for an individual player based on the 
+player's level.
+===========================================================
+Compatibility:
+Optimised for Hercules emulators.
+===========================================================
+Changelog:
+v1.0 - First version.
+=========================================================*/
+
+-	script	sv_rate_sys	-1,{
+
+	/*-----------------------------------------------------
+	Script
+	-----------------------------------------------------*/
+	//OnPCLoginEvent:	// Needed if "sc_end SC_ALL;" used in debuffers
+	OnPCBaseLvUpEvent:
+		// Do nothing if level is below threshold
+		if (BaseLevel < .min_level) {
+			end;
+		}
+		
+		// Increase base experience and drop rates
+		sc_start SC_CASH_PLUSEXP, -1, .base_exp_rate;
+		sc_start SC_CASH_PLUSONLYJOBEXP, -1, .job_exp_rate;
+		sc_start SC_CASH_RECEIVEITEM, -1, .drop_rate;
+		
+		end;
+	
+	
+	/*-----------------------------------------------------
+	Configuration
+	-----------------------------------------------------*/
+	OnInit:
+		// Minimum level
+		.min_level = 90;
+		
+		// Increased (percentage of current) rates
+		.base_exp_rate = 200;
+		.job_exp_rate = 200;
+		.drop_rate = 100;
+		end;
+	
+}

@@ -1,0 +1,151 @@
+/*=========================================================
+Continent Level-Up System
+by Mumbles
+===========================================================
+Description:
+Unlocks maps based on cumulative base experience throughout
+the continent.
+===========================================================
+Variables:
+$cont_exp - stores value of cumulative experience.
+$next_map - index value for next map to be unlocked.
+===========================================================
+Compatibility:
+Optimised for Hercules emulators.
+===========================================================
+Changelog:
+v1.0 - First version.
+=========================================================*/
+
+-	script	sv_lvlup_sys	-1,{
+	
+	/*-----------------------------------------------------
+	Script
+	-----------------------------------------------------*/
+	OnNPCKillEvent:
+		// Loop through all unlockable maps
+		for (.@i = 0; .@i < getarraysize(.map_name$); .@i++) {
+			// Determine if player is eligible to contribute experience
+			if (Elaria_Story || strcharinfo(3) == .map_name$[.@i]) {
+				// Determine the amount of experience gained from kill
+				.@killed_exp = getmonsterinfo(killedrid, MOB_BASEEXP);
+				
+				// Add experience value to current continent experience
+				$cont_exp += .@killed_exp;
+				
+				// Check if threshold met for current map
+				if ($cont_exp < .min_exp[$next_map]) {
+					// Do nothing if threshold not met
+					end;
+				}
+				
+				// Announce map unlock
+				announce "The map \""+ .map_vanity$[$next_map] +"\" ("+ .map_name$[$next_map] +") has been unlocked!", bc_all;
+				
+				// Set flag to unlock next map
+				$next_map++;
+			}
+		}
+		
+		end;
+		
+		
+	
+	/*-----------------------------------------------------
+	Configuration
+	-----------------------------------------------------*/
+	OnInit:
+		// Base experience thresholds (11)
+		setarray .min_exp[0],
+			1000000,
+			2000000,
+			5000000,
+			10000000,
+			30000000,
+			50000000,
+			200000000,
+			400000000,
+			600000000,
+			800000000,
+			1000000000,
+			2000000000;
+			
+		// Corresponding maps to unlock
+		setarray .map_name$[0],
+			"prt_fild01",
+			"prt_fild02",
+			"prt_fild03",
+			"prt_fild04",
+			"prt_fild05",
+			"prt_fild06",
+			"prt_fild07",
+			"prt_fild08",
+			"prt_fild09",
+			"prt_fild10",
+			"prt_fild11";
+			
+			
+		// Corresponding vanity names
+		setarray .map_vanity$[0],
+			"Prontera Field 01",
+			"Prontera Field 02",
+			"Prontera Field 03",
+			"Prontera Field 04",
+			"Prontera Field 05",
+			"Prontera Field 06",
+			"Prontera Field 07",
+			"Prontera Field 08",
+			"Prontera Field 09",
+			"Prontera Field 10",
+			"Prontera Field 11";
+			
+		
+		// Create atcommand to check experience progress
+		bindatcmd "checkexp", strnpcinfo(3) +"::OnCheckEXP", 0, 99;
+			
+		end;
+		
+		
+	/*-----------------------------------------------------
+	Atcommand @checkexp
+	-----------------------------------------------------*/
+	OnCheckEXP:
+		// Display information about unlocking next map
+		message strcharinfo(0), $cont_exp +" / "+ .min_exp[$next_map] +" EXP has been gained toward unlocking "+ $map_vanity$[$next_map];
+		
+		end;
+		
+		
+	/*-----------------------------------------------------
+	Map Status
+	-----------------------------------------------------*/
+	OnPCLoadMapEvent:
+		// Loop through all unlockable maps
+		for (.@i = 0; .@i < getarraysize(.map_name$); .@i++) {
+			// Check if player is on map and if map is unlocked
+			if (strcharinfo(3) == .map_name$[.@i] && .@i < $next_map) {
+				// Return to SavePoint if map is locked
+				warp "SavePoint", 0, 0;
+				end;
+			}
+		}
+		
+		end;
+	
+}
+
+
+/*-----------------------------------------------------
+Mapflags
+-----------------------------------------------------*/
+prt_fild01	mapflag	loadevent
+prt_fild02	mapflag	loadevent
+prt_fild03	mapflag	loadevent
+prt_fild04	mapflag	loadevent
+prt_fild05	mapflag	loadevent
+prt_fild06	mapflag	loadevent
+prt_fild07	mapflag	loadevent
+prt_fild08	mapflag	loadevent
+prt_fild09	mapflag	loadevent
+prt_fild10	mapflag	loadevent
+prt_fild11	mapflag	loadevent
